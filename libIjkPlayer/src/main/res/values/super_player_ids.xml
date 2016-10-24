@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <item name="fl_super_video" type="id"/>
+    <item name="rl_player_control" type="id"/>
+</resources>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 布局可以更改，但是fl_super_video和rl_player_control这两个必须在同一个Viewgroup之下，并且Id不能更改-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_super_video_layout"
+        android:layout_width="match_parent"
+        android:layout_height="210dp">
+
+        <FrameLayout
+            android:id="@id/fl_super_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:id="@id/rl_player_control"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#30000000"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/iv_super_video_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#30000000"
+                android:scaleType="fitXY"
+                android:src="@drawable/superplayer_bg_super_video_cover"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#50000000"/>
+
+            <ImageView
+                android:id="@+id/iv_super_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/superplayer_ic_play_normal"/>
+
+            <TextView
+                android:id="@+id/tv_super_play_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:maxLines="2"
+                android:padding="8dp"
+                android:text="我只是个标题而已"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/tv_super_play_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:padding="8dp"
+                android:text="04:33"
+                android:textColor="@android:color/white"
+                android:textSize="10sp"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_super_video_layout"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/iv_headicon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/superplayer_ic_avatar"/>
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/iv_headicon"
+            android:paddingLeft="8dp"
+            android:text="super南仔"/>
+
+        <TextView
+            android:id="@+id/tv_play_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="8dp"
+            android:text="104万播放数"/>
+    </RelativeLayout>
+
+</RelativeLayout>
