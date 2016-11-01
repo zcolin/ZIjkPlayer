@@ -43,7 +43,7 @@ public class SuperVideoAdapter extends BaseRecyclerAdapter<VideoListBean> {
 
     @Override
     public void setUpData(CommonHolder holder, final int position, int viewType, final VideoListBean data) {
-        final RelativeLayout rlayPlayerControl = getView(holder, R.id.rl_player_control);
+        final RelativeLayout rlayPlayerControl = getView(holder, R.id.IjkPlayer_rl_player_control);
         final RelativeLayout rlayPlayer = getView(holder, R.id.rl_super_video_layout);
         TextView tvTitle = getView(holder, R.id.tv_super_play_title);
         tvTitle.setText(data.getTitleName());

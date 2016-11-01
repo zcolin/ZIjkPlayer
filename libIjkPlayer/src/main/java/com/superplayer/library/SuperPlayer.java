@@ -546,7 +546,7 @@ public class SuperPlayer extends RelativeLayout {
         portrait = getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         hideAll();
         if (!playerSupport) {
-            showStatus(activity.getResources().getString(R.string.not_support),
+            showStatus(activity.getResources().getString(R.string.IjkPlayer_not_support),
                     "重试");
         }
         
@@ -587,7 +587,7 @@ public class SuperPlayer extends RelativeLayout {
             if (isLive) {
                 showStatus(
                         activity.getResources().getString(
-                                R.string.small_problem), "重试");
+                                R.string.IjkPlayer_small_problem), "重试");
                 if (defaultRetryTime > 0) {
                     handler.sendEmptyMessageDelayed(MESSAGE_RESTART_PLAY,
                             defaultRetryTime);
@@ -595,7 +595,7 @@ public class SuperPlayer extends RelativeLayout {
             } else {
                 showStatus(
                         activity.getResources().getString(
-                                R.string.small_problem), "重试");
+                                R.string.IjkPlayer_small_problem), "重试");
             }
         } else if (newStatus == STATUS_LOADING) {
             hideAll();
@@ -1477,7 +1477,7 @@ public class SuperPlayer extends RelativeLayout {
                 onNetChangeListener.onMobile();
                 showStatus(
                         activity.getResources().getString(
-                                R.string.player_not_wifi), "继续");
+                                R.string.IjkPlayer_player_not_wifi), "继续");
             } else if (NetUtils.getNetworkType(activity) == 1) {// 网络链接断开
                 onPause();
                 onNetChangeListener.onDisConnect();

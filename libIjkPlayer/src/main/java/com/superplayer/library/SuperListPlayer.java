@@ -65,7 +65,7 @@ public class SuperListPlayer extends RelativeLayout {
         player.onComplete(new Runnable() {
             @Override
             public void run() {
-                showView(R.id.rl_player_control);
+                showView(R.id.IjkPlayer_rl_player_control);
             }
         });
 
@@ -144,7 +144,7 @@ public class SuperListPlayer extends RelativeLayout {
                 if (postion <= layoutManager.findLastVisibleItemPosition()
                         && postion >= layoutManager.findFirstVisibleItemPosition()) {
                     View view = recyclerView.findViewHolderForAdapterPosition(postion).itemView;
-                    FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.fl_super_video);
+                    FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.IjkPlayer_fl_super_video);
                     frameLayout.removeAllViews();
                     ViewGroup last = (ViewGroup) player.getParent();//找到videoitemview的父类，然后remove
                     if (last != null) {
@@ -184,13 +184,13 @@ public class SuperListPlayer extends RelativeLayout {
             }
         }
         if (lastPostion != -1) {
-            showView(R.id.rl_player_control);
+            showView(R.id.IjkPlayer_rl_player_control);
         }
 
         View view = recyclerView.findViewHolderForAdapterPosition(position).itemView;
-        FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.fl_super_video);
+        FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.IjkPlayer_fl_super_video);
         frameLayout.removeAllViews();
-        showView(R.id.rl_player_control);
+        showView(R.id.IjkPlayer_rl_player_control);
         frameLayout.addView(player);
         player.play(playUrl);
         lastPostion = position;
@@ -236,17 +236,17 @@ public class SuperListPlayer extends RelativeLayout {
         @Override
         public void onChildViewAttachedToWindow(View view) {
             int index = recyclerView.getChildAdapterPosition(view);
-            View controlview = view.findViewById(R.id.rl_player_control);
+            View controlview = view.findViewById(R.id.IjkPlayer_rl_player_control);
             if (controlview == null) {
                 return;
             }
-            view.findViewById(R.id.rl_player_control)
+            view.findViewById(R.id.IjkPlayer_rl_player_control)
                 .setVisibility(View.VISIBLE);
             if (index == postion) {
-                FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.fl_super_video);
+                FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.IjkPlayer_fl_super_video);
                 frameLayout.removeAllViews();
                 if (player.isPlaying() || player.getVideoStatus() == IjkVideoView.STATE_PAUSED) {
-                    view.findViewById(R.id.rl_player_control)
+                    view.findViewById(R.id.IjkPlayer_rl_player_control)
                         .setVisibility(View.GONE);
                 }
                 if (player.getVideoStatus() == IjkVideoView.STATE_PAUSED) {
@@ -264,7 +264,7 @@ public class SuperListPlayer extends RelativeLayout {
                 if (player != null) {
                     player.stop();
                     player.release();
-                    showView(R.id.rl_player_control);
+                    showView(R.id.IjkPlayer_rl_player_control);
                 }
             }
         }

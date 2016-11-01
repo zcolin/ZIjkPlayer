@@ -12,14 +12,14 @@
         android:layout_height="210dp">
 
         <FrameLayout
-            android:id="@id/fl_super_video"
+            android:id="@id/IjkPlayer_fl_super_video"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         </FrameLayout>
 
         <RelativeLayout
-            android:id="@id/rl_player_control"
+            android:id="@id/IjkPlayer_rl_player_control"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#30000000"
