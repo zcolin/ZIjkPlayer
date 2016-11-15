@@ -108,7 +108,8 @@ public class SuperPlayer extends RelativeLayout {
     private int     status              = STATUS_IDLE;
     private boolean isLive              = false;// 是否为直播
     private boolean isShowCenterControl = false;// 是否显示中心控制器
-    private boolean isHideControl       = false;//是否隐藏视频控制栏
+    private boolean isAlwaysHideControl = false;//是否一直隐藏视频控制栏
+    private boolean isAlwaysShowControl = false;//是否一直显示视频控制栏
     private boolean isShowTopControl    = true;//是否显示头部显示栏，true：竖屏也显示 false：竖屏不显示，横屏显示
     private boolean isSupportGesture    = false;//是否至此手势操作，false ：小屏幕的时候不支持，全屏的支持；true : 小屏幕还是全屏都支持
     private boolean isPrepare           = false;// 是否已经初始化播放
@@ -259,7 +260,7 @@ public class SuperPlayer extends RelativeLayout {
      * @param timeout
      */
     private void show(int timeout) {
-        if (isHideControl) {
+        if (isAlwaysHideControl) {
             showBottomControl(false);
             showCenterControl(false);
             showTopControl(false);
@@ -604,6 +605,7 @@ public class SuperPlayer extends RelativeLayout {
                 $.id(R.id.view_jky_player_center_control)
                  .visible();
             }
+            updatePausePlay();
         } else if (newStatus == STATUS_ERROR) {
             handler.removeMessages(MESSAGE_SHOW_PROGRESS);
             hideAll();
@@ -636,16 +638,13 @@ public class SuperPlayer extends RelativeLayout {
      * 隐藏全部的控件
      */
     private void hideAll() {
-        $.id(R.id.view_jky_player_center_control)
-         .gone();
         $.id(R.id.app_video_loading)
          .gone();
-        $.id(R.id.view_jky_player_fullscreen)
-         .invisible();
         $.id(R.id.view_jky_player_tip_control)
          .gone();
-        showBottomControl(false);
-        showTopControl(false);
+        hide(true);
+//      showBottomControl(false);
+//      showTopControl(false);
     }
 
     private void doOnConfigurationChanged(final boolean portrait) {
@@ -1073,7 +1072,7 @@ public class SuperPlayer extends RelativeLayout {
     }
 
     public void hide(boolean force) {
-        if (force || isShowing) {
+        if ((force || isShowing) && !isAlwaysShowControl) {
             handler.removeMessages(MESSAGE_SHOW_PROGRESS);
             showBottomControl(false);
             $.id(R.id.view_jky_player_center_control)
@@ -1572,10 +1571,18 @@ public class SuperPlayer extends RelativeLayout {
     }
 
     /**
-     * 点击的时候是否显示控制栏， false为隐藏全部控制栏
+     * 是否一直隐藏控制栏
      */
-    public SuperPlayer setHideControl(boolean isHideControl) {
-        this.isHideControl = isHideControl;
+    public SuperPlayer setAlwaysHideControl() {
+        this.isAlwaysHideControl = true;
+        return this;
+    }
+
+    /**
+     *  是否一直显示控制栏
+     */
+    public SuperPlayer setAlwaysShowControl() {
+        this.isAlwaysShowControl = true;
         return this;
     }
 

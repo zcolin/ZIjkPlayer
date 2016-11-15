@@ -54,6 +54,9 @@ public class VideoPlayActivity extends BaseVideoPlayActivity implements View.OnC
         player.setLive(isLive)//设置该地址是直播的地址
               .setNetChangeListener(true)//设置监听手机网络的变化,这个参数是内部是否处理网络监听，和setOnNetChangeListener没有关系
               .setOnNetChangeListener(this)//实现网络变化的回调
+              .setScaleType(SuperPlayer.SCALETYPE_FITXY)
+              .setPlayerWH(0, player.getMeasuredHeight())//设置竖屏的时候屏幕的高度，如果不设置会切换后按照16:9的高度重置
+              .setAlwaysShowControl()  //设置则一直显示
               .onPrepared(new SuperPlayer.OnPreparedListener() {
                   @Override
                   public void onPrepared() {
@@ -78,8 +81,6 @@ public class VideoPlayActivity extends BaseVideoPlayActivity implements View.OnC
                       //TODO 监听视频播放失败的回调
                   }
               });
-        player.setScaleType(SuperPlayer.SCALETYPE_FITXY);
-        player.setPlayerWH(0, player.getMeasuredHeight());//设置竖屏的时候屏幕的高度，如果不设置会切换后按照16:9的高度重置
         return player;
     }
 
