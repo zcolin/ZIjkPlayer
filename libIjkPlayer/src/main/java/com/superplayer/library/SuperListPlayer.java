@@ -124,7 +124,7 @@ public class SuperListPlayer extends RelativeLayout {
             if (recyclerViewLayout.getChildAt(i) instanceof RecyclerView) {
                 return (RecyclerView) (recyclerViewLayout.getChildAt(i));
             } else if (recyclerViewLayout.getChildAt(i) instanceof ViewGroup) {
-                getRecyclerViewFromeViewGroup((ViewGroup) (recyclerViewLayout.getChildAt(i)));
+                return getRecyclerViewFromeViewGroup((ViewGroup) (recyclerViewLayout.getChildAt(i)));
             }
         }
         return null;
