@@ -2,6 +2,7 @@ package com.supercwn.player;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,6 +28,10 @@ public class VideoPlayActivity extends BaseVideoPlayActivity implements View.OnC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.id_tool_bar);
+        setSupportActionBar(toolbar);
+        
+        
         isLive = getIntent().getBooleanExtra("isLive", false);
         url = getIntent().getStringExtra("url");
 

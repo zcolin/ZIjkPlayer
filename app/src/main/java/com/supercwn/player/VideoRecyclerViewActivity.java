@@ -9,6 +9,7 @@
 package com.supercwn.player;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.widget.RelativeLayout;
 
 import com.supercwn.player.adapter.SuperVideoAdapter;
@@ -27,6 +28,9 @@ public class VideoRecyclerViewActivity extends BaseVideoRecycleViewActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.id_tool_bar);
+        setSupportActionBar(toolbar);
+        
         setData();
         initAdapter();
     }

@@ -689,6 +689,18 @@ public class SuperPlayer extends RelativeLayout {
 
     private void setFullScreen(boolean fullScreen) {
         if (activity != null) {
+            //隐藏显示actionbar
+            if (activity instanceof AppCompatActivity) {
+                ActionBar supportActionBar = ((AppCompatActivity) activity).getSupportActionBar();
+                if (supportActionBar != null) {
+                    if (fullScreen) {
+                        supportActionBar.hide();
+                    } else {
+                        supportActionBar.show();
+                    }
+                }
+            }
+            
             WindowManager.LayoutParams attrs = activity.getWindow()
                     .getAttributes();
             if (fullScreen) {

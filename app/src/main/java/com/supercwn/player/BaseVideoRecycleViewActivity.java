@@ -8,9 +8,9 @@
  */
 package com.supercwn.player;
 
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.RelativeLayout;
 
 import com.supercwn.player.adapter.SuperVideoAdapter;
@@ -20,7 +20,7 @@ import com.superplayer.library.SuperListPlayer;
 /**
  * 视频列表播放基类
  */
-public abstract class BaseVideoRecycleViewActivity extends Activity {
+public abstract class BaseVideoRecycleViewActivity extends AppCompatActivity {
     protected SuperListPlayer player;
 
     @Override
