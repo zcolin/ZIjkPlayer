@@ -105,7 +105,7 @@ public class SuperListPlayer extends RelativeLayout {
         }
         this.recyclerView.addOnChildAttachStateChangeListener(childAttachStateChageListener);
         flRecyclerViewParent.removeAllViews();
-        flRecyclerViewParent.addView(recyclerView);
+        flRecyclerViewParent.addView(recyclerViewLayout);
 
         if (recyclerView.getLayoutManager() == null || !(recyclerView.getLayoutManager() instanceof LinearLayoutManager)) {
             layoutManager = new LinearLayoutManager(context);
