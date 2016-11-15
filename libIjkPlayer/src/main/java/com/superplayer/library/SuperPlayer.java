@@ -42,9 +42,6 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer;
  * 类描述：视频播放控制类
  *
  * @author Super南仔
- * @time 2016-9-19
- * 
- * update by colin on 2016-10-19
  */
 public class SuperPlayer extends RelativeLayout {
     /**
@@ -53,14 +50,14 @@ public class SuperPlayer extends RelativeLayout {
      * or **less** than the corresponding dimension of the view. like
      * ImageView's `CENTER_INSIDE`.等比缩放,画面填满view。
      */
-    public static final String SCALETYPE_FITPARENT = "fitParent";
+    public static final  String SCALETYPE_FITPARENT       = "fitParent";
     /**
      * fillParent:scale the video uniformly (maintain the video's aspect ratio)
      * so that both dimensions (width and height) of the video will be equal to
      * or **larger** than the corresponding dimension of the view .like
      * ImageView's `CENTER_CROP`.等比缩放,直到画面宽高都等于或小于view的宽高。
      */
-    public static final String SCALETYPE_FILLPARENT = "fillParent";
+    public static final  String SCALETYPE_FILLPARENT      = "fillParent";
     /**
      * wrapContent:center the video in the view,if the video is less than view
      * perform no scaling,if video is larger than view then scale the video
@@ -68,68 +65,68 @@ public class SuperPlayer extends RelativeLayout {
      * equal to or **less** than the corresponding dimension of the view.
      * 将视频的内容完整居中显示，如果视频大于view,则按比例缩视频直到完全显示在view中。
      */
-    public static final String SCALETYPE_WRAPCONTENT = "wrapContent";
+    public static final  String SCALETYPE_WRAPCONTENT     = "wrapContent";
     /**
      * fitXY:scale in X and Y independently, so that video matches view
      * exactly.不剪裁,非等比例拉伸画面填满整个View
      */
-    public static final String SCALETYPE_FITXY = "fitXY";
+    public static final  String SCALETYPE_FITXY           = "fitXY";
     /**
      * 16:9:scale x and y with aspect ratio 16:9 until both dimensions (width
      * and height) of the video will be equal to or **less** than the
      * corresponding dimension of the view.不剪裁,非等比例拉伸画面到16:9,并完全显示在View中。
      */
-    public static final String SCALETYPE_16_9 = "16:9";
+    public static final  String SCALETYPE_16_9            = "16:9";
     /**
      * 4:3:scale x and y with aspect ratio 4:3 until both dimensions (width and
      * height) of the video will be equal to or **less** than the corresponding
      * dimension of the view.不剪裁,非等比例拉伸画面到4:3,并完全显示在View中。
      */
-    public static final String SCALETYPE_4_3 = "4:3";
-    private static final int MESSAGE_SHOW_PROGRESS = 1;
-    private static final int MESSAGE_FADE_OUT = 2;
-    private static final int MESSAGE_SEEK_NEW_POSITION = 3;
-    private static final int MESSAGE_HIDE_CENTER_BOX = 4;
-    private static final int MESSAGE_RESTART_PLAY = 5;
-    private Activity activity;
-    private Context context;
-    private View contentView;
+    public static final  String SCALETYPE_4_3             = "4:3";
+    private static final int    MESSAGE_SHOW_PROGRESS     = 1;
+    private static final int    MESSAGE_FADE_OUT          = 2;
+    private static final int    MESSAGE_SEEK_NEW_POSITION = 3;
+    private static final int    MESSAGE_HIDE_CENTER_BOX   = 4;
+    private static final int    MESSAGE_RESTART_PLAY      = 5;
+    private Activity     activity;
+    private Context      context;
+    private View         contentView;
     private IjkVideoView videoView;
-    private SeekBar seekBar;
+    private SeekBar      seekBar;
     private AudioManager audioManager;
-    private int mMaxVolume;
-    private boolean playerSupport;
-    private String url;
-    private Query $;
-    private int STATUS_ERROR = -1;
-    private int STATUS_IDLE = 0;
-    private int STATUS_LOADING = 1;
-    private int STATUS_PLAYING = 2;
-    private int STATUS_PAUSE = 3;
+    private int          mMaxVolume;
+    private boolean      playerSupport;
+    private String       url;
+    private Query        $;
+    private int STATUS_ERROR     = -1;
+    private int STATUS_IDLE      = 0;
+    private int STATUS_LOADING   = 1;
+    private int STATUS_PLAYING   = 2;
+    private int STATUS_PAUSE     = 3;
     private int STATUS_COMPLETED = 4;
     private long pauseTime;
-    private int status = STATUS_IDLE;
-    private boolean isLive = false;// 是否为直播
+    private int     status              = STATUS_IDLE;
+    private boolean isLive              = false;// 是否为直播
     private boolean isShowCenterControl = false;// 是否显示中心控制器
-    private boolean isHideControl = false;//是否隐藏视频控制栏
-    private boolean isShowTopControl = true;//是否显示头部显示栏，true：竖屏也显示 false：竖屏不显示，横屏显示
-    private boolean isSupportGesture = false;//是否至此手势操作，false ：小屏幕的时候不支持，全屏的支持；true : 小屏幕还是全屏都支持
-    private boolean isPrepare = false;// 是否已经初始化播放
-    private boolean isNetListener = true;// 是否添加网络监听 (默认是监听)
+    private boolean isHideControl       = false;//是否隐藏视频控制栏
+    private boolean isShowTopControl    = true;//是否显示头部显示栏，true：竖屏也显示 false：竖屏不显示，横屏显示
+    private boolean isSupportGesture    = false;//是否至此手势操作，false ：小屏幕的时候不支持，全屏的支持；true : 小屏幕还是全屏都支持
+    private boolean isPrepare           = false;// 是否已经初始化播放
+    private boolean isNetListener       = true;// 是否添加网络监听 (默认是监听)
     private boolean isAspectRatioEnable;//是否支持双击切换纵横比
     private boolean isSupportOrientationEvent;//是否支持重力感应
-    
-    private OnClickListener onClickSetting;//是否显示设置按钮 设置监听就显示 否则不显示  默认全屏显示设置
-    private OnClickListener onClickShare;//是否显示分享按钮  设置监听就显示，否则不显示 默认小屏显示分享
+
+    private OnClickListener     onClickSetting;//是否显示设置按钮 设置监听就显示 否则不显示  默认全屏显示设置
+    private OnClickListener     onClickShare;//是否显示分享按钮  设置监听就显示，否则不显示 默认小屏显示分享
     // 网络监听回调
-    private NetChangeReceiver netChangeReceiver;
+    private NetChangeReceiver   netChangeReceiver;
     private OnNetChangeListener onNetChangeListener;
 
     private OrientationEventListener orientationEventListener;
     private int defaultTimeout = 3000;
     private int screenWidthPixels;
 
-    private int initWidth = 0;
+    private int initWidth  = 0;
     private int initHeight = 0;
 
     public SuperPlayer(Context context) {
@@ -172,7 +169,8 @@ public class SuperPlayer extends RelativeLayout {
                 }
             } else if (v.getId() == R.id.view_jky_player_tv_continue) {
                 isNetListener = false;// 取消网络的监听
-                $.id(R.id.view_jky_player_tip_control).gone();
+                $.id(R.id.view_jky_player_tip_control)
+                 .gone();
                 play(url, currentPosition);
             } else if (v.getId() == R.id.view_jky_play_iv_setting) {
                 if (onClickSetting != null) {
@@ -187,17 +185,17 @@ public class SuperPlayer extends RelativeLayout {
     };
     private boolean isShowing;
     private boolean portrait;
-    private float brightness = -1;
-    private int volume = -1;
-    private long newPosition = -1;
-    private long defaultRetryTime = 5000;
+    private float brightness       = -1;
+    private int   volume           = -1;
+    private long  newPosition      = -1;
+    private long  defaultRetryTime = 5000;
     private OnErrorListener onErrorListener;
     private Runnable oncomplete = new Runnable() {
         @Override
         public void run() {
         }
     };
-    private OnInfoListener onInfoListener;
+    private OnInfoListener     onInfoListener;
     private OnPreparedListener onPreparedListener;
 
     /**
@@ -209,18 +207,20 @@ public class SuperPlayer extends RelativeLayout {
         this.defaultRetryTime = defaultRetryTime;
     }
 
-    private int currentPosition;
+    private int     currentPosition;
     private boolean fullScreenOnly;
 
     public SuperPlayer setTitle(CharSequence title) {
-        $.id(R.id.app_video_title).text(title);
+        $.id(R.id.app_video_title)
+         .text(title);
         return this;
     }
 
     private void doPauseResume() {
         if (status == STATUS_COMPLETED) {
             if (isShowCenterControl) {
-                $.id(R.id.view_jky_player_center_control).visible();
+                $.id(R.id.view_jky_player_center_control)
+                 .visible();
             }
             videoView.seekTo(0);
             videoView.start();
@@ -237,16 +237,21 @@ public class SuperPlayer extends RelativeLayout {
      * 更新暂停状态的控件显示
      */
     private void updatePausePlay() {
-        $.id(R.id.view_jky_player_center_control).visibility(
-                isShowCenterControl ? View.VISIBLE : View.GONE);
+        $.id(R.id.view_jky_player_center_control)
+         .visibility(
+                 isShowCenterControl ? View.VISIBLE : View.GONE);
         if (videoView.isPlaying()) {
-            $.id(R.id.app_video_play).image(R.drawable.superplayer_ic_pause);
-            $.id(R.id.view_jky_player_center_play).image(
-                    R.drawable.superplayer_ic_center_pause);
+            $.id(R.id.app_video_play)
+             .image(R.drawable.superplayer_ic_pause);
+            $.id(R.id.view_jky_player_center_play)
+             .image(
+                     R.drawable.superplayer_ic_center_pause);
         } else {
-            $.id(R.id.app_video_play).image(R.drawable.superplayer_ic_play);
-            $.id(R.id.view_jky_player_center_play).image(
-                    R.drawable.superplayer_ic_center_play);
+            $.id(R.id.app_video_play)
+             .image(R.drawable.superplayer_ic_play);
+            $.id(R.id.view_jky_player_center_play)
+             .image(
+                     R.drawable.superplayer_ic_center_play);
         }
     }
 
@@ -267,11 +272,13 @@ public class SuperPlayer extends RelativeLayout {
                 showTopControl(true);
             }
             if (isShowCenterControl) {
-                $.id(R.id.view_jky_player_center_control).visible();
+                $.id(R.id.view_jky_player_center_control)
+                 .visible();
             }
             showBottomControl(true);
             if (!fullScreenOnly) {
-                $.id(R.id.view_jky_player_fullscreen).visible();
+                $.id(R.id.view_jky_player_fullscreen)
+                 .visible();
             }
             isShowing = true;
         }
@@ -290,26 +297,30 @@ public class SuperPlayer extends RelativeLayout {
      * @param show true ： 显示 false ： 隐藏
      */
     private void showBottomControl(boolean show) {
-        $.id(R.id.app_video_bottom_box).visibility(
-                show ? View.VISIBLE : View.GONE);
+        $.id(R.id.app_video_bottom_box)
+         .visibility(
+                 show ? View.VISIBLE : View.GONE);
         if (isLive) {// 直播需要隐藏和显示一些底部的一些控件
-            $.id(R.id.app_video_play).gone();
-            $.id(R.id.app_video_currentTime).gone();
-            $.id(R.id.app_video_endTime).gone();
-            $.id(R.id.app_video_seekBar).gone();
-            $.id(R.id.view_jky_player_tv_number).visible();
+            $.id(R.id.app_video_play)
+             .gone();
+            $.id(R.id.app_video_currentTime)
+             .gone();
+            $.id(R.id.app_video_endTime)
+             .gone();
+            $.id(R.id.app_video_seekBar)
+             .gone();
+            $.id(R.id.view_jky_player_tv_number)
+             .visible();
         }
 
     }
 
     /**
      * 隐藏和显示头部的一些控件
-     *
-     * @param show
      */
     private void showTopControl(boolean show) {
         $.id(R.id.app_video_top_box)
-                .visibility(show ? View.VISIBLE : View.GONE);
+         .visibility(show ? View.VISIBLE : View.GONE);
         if (isLive) {// 对直播特定控件隐藏显示
 
         }
@@ -317,17 +328,16 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * 隐藏和显示中间控件
-     *
-     * @param show
      */
-    private void showCenterControl(boolean show){
-        $.id(R.id.view_jky_player_center_control).visibility(show ? View.VISIBLE : View.GONE);
+    private void showCenterControl(boolean show) {
+        $.id(R.id.view_jky_player_center_control)
+         .visibility(show ? View.VISIBLE : View.GONE);
         if (isLive) {// 对直播特定控件隐藏显示
 
         }
     }
 
-    private long duration;
+    private long    duration;
     private boolean instantSeeking;
     private boolean isDragging;
     private final SeekBar.OnSeekBarChangeListener mSeekListener = new SeekBar.OnSeekBarChangeListener() {
@@ -336,13 +346,15 @@ public class SuperPlayer extends RelativeLayout {
                                       boolean fromUser) {
             if (!fromUser)
                 return;
-            $.id(R.id.view_jky_player_tip_control).gone();// 移动时隐藏掉状态image
+            $.id(R.id.view_jky_player_tip_control)
+             .gone();// 移动时隐藏掉状态image
             int newPosition = (int) ((duration * progress * 1.0) / 1000);
             String time = generateTime(newPosition);
             if (instantSeeking) {
                 videoView.seekTo(newPosition);
             }
-            $.id(R.id.app_video_currentTime).text(time);
+            $.id(R.id.app_video_currentTime)
+             .text(time);
         }
 
         @Override
@@ -378,9 +390,12 @@ public class SuperPlayer extends RelativeLayout {
                     hide(false);
                     break;
                 case MESSAGE_HIDE_CENTER_BOX:
-                    $.id(R.id.app_video_volume_box).gone();
-                    $.id(R.id.app_video_brightness_box).gone();
-                    $.id(R.id.app_video_fastForward_box).gone();
+                    $.id(R.id.app_video_volume_box)
+                     .gone();
+                    $.id(R.id.app_video_brightness_box)
+                     .gone();
+                    $.id(R.id.app_video_fastForward_box)
+                     .gone();
                     break;
                 case MESSAGE_SEEK_NEW_POSITION:
                     if (!isLive && newPosition >= 0) {
@@ -414,7 +429,8 @@ public class SuperPlayer extends RelativeLayout {
         } catch (Throwable e) {
             Log.e("GiraffePlayer", "loadLibraries error", e);
         }
-        screenWidthPixels = activity.getResources().getDisplayMetrics().widthPixels;
+        screenWidthPixels = activity.getResources()
+                                    .getDisplayMetrics().widthPixels;
         $ = new Query(activity);
         contentView = View.inflate(context, R.layout.view_super_player, this);
         videoView = (IjkVideoView) contentView.findViewById(R.id.video_view);
@@ -484,13 +500,20 @@ public class SuperPlayer extends RelativeLayout {
         seekBar = (SeekBar) contentView.findViewById(R.id.app_video_seekBar);
         seekBar.setMax(1000);
         seekBar.setOnSeekBarChangeListener(mSeekListener);
-        $.id(R.id.app_video_play).clicked(onClickListener);
-        $.id(R.id.view_jky_player_fullscreen).clicked(onClickListener);
-        $.id(R.id.app_video_finish).clicked(onClickListener);
-        $.id(R.id.view_jky_player_center_play).clicked(onClickListener);
-        $.id(R.id.view_jky_player_tv_continue).clicked(onClickListener);
-        $.id(R.id.view_jky_play_iv_setting).clicked(onClickListener);
-        $.id(R.id.view_jky_player_iv_share).clicked(onClickListener);
+        $.id(R.id.app_video_play)
+         .clicked(onClickListener);
+        $.id(R.id.view_jky_player_fullscreen)
+         .clicked(onClickListener);
+        $.id(R.id.app_video_finish)
+         .clicked(onClickListener);
+        $.id(R.id.view_jky_player_center_play)
+         .clicked(onClickListener);
+        $.id(R.id.view_jky_player_tv_continue)
+         .clicked(onClickListener);
+        $.id(R.id.view_jky_play_iv_setting)
+         .clicked(onClickListener);
+        $.id(R.id.view_jky_player_iv_share)
+         .clicked(onClickListener);
 
         audioManager = (AudioManager) activity
                 .getSystemService(Context.AUDIO_SERVICE);
@@ -546,10 +569,11 @@ public class SuperPlayer extends RelativeLayout {
         portrait = getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         hideAll();
         if (!playerSupport) {
-            showStatus(activity.getResources().getString(R.string.IjkPlayer_not_support),
+            showStatus(activity.getResources()
+                               .getString(R.string.IjkPlayer_not_support),
                     "重试");
         }
-        
+
         updateFullScreenButton();
     }
 
@@ -570,8 +594,6 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * 视频播放状态的改变
-     *
-     * @param newStatus
      */
     private void statusChange(int newStatus) {
         status = newStatus;
@@ -579,27 +601,31 @@ public class SuperPlayer extends RelativeLayout {
             handler.removeMessages(MESSAGE_SHOW_PROGRESS);
             hideAll();
             if (isShowCenterControl) {
-                $.id(R.id.view_jky_player_center_control).visible();
+                $.id(R.id.view_jky_player_center_control)
+                 .visible();
             }
         } else if (newStatus == STATUS_ERROR) {
             handler.removeMessages(MESSAGE_SHOW_PROGRESS);
             hideAll();
             if (isLive) {
                 showStatus(
-                        activity.getResources().getString(
-                                R.string.IjkPlayer_small_problem), "重试");
+                        activity.getResources()
+                                .getString(
+                                        R.string.IjkPlayer_small_problem), "重试");
                 if (defaultRetryTime > 0) {
                     handler.sendEmptyMessageDelayed(MESSAGE_RESTART_PLAY,
                             defaultRetryTime);
                 }
             } else {
                 showStatus(
-                        activity.getResources().getString(
-                                R.string.IjkPlayer_small_problem), "重试");
+                        activity.getResources()
+                                .getString(
+                                        R.string.IjkPlayer_small_problem), "重试");
             }
         } else if (newStatus == STATUS_LOADING) {
             hideAll();
-            $.id(R.id.app_video_loading).visible();
+            $.id(R.id.app_video_loading)
+             .visible();
         } else if (newStatus == STATUS_PLAYING) {
             hideAll();
         }
@@ -610,10 +636,14 @@ public class SuperPlayer extends RelativeLayout {
      * 隐藏全部的控件
      */
     private void hideAll() {
-        $.id(R.id.view_jky_player_center_control).gone();
-        $.id(R.id.app_video_loading).gone();
-        $.id(R.id.view_jky_player_fullscreen).invisible();
-        $.id(R.id.view_jky_player_tip_control).gone();
+        $.id(R.id.view_jky_player_center_control)
+         .gone();
+        $.id(R.id.app_video_loading)
+         .gone();
+        $.id(R.id.view_jky_player_fullscreen)
+         .invisible();
+        $.id(R.id.view_jky_player_tip_control)
+         .gone();
         showBottomControl(false);
         showTopControl(false);
     }
@@ -623,14 +653,15 @@ public class SuperPlayer extends RelativeLayout {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    setFullScreen(!portrait);
+                    tryFullScreen(!portrait);
                     if (portrait) {
                         ViewGroup.LayoutParams layoutParams = getLayoutParams();
-                        activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                        activity.getWindow()
+                                .clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                         if (initWidth != 0) {
                             layoutParams.width = initWidth;
-                        } 
-                        
+                        }
+
                         if (initHeight == 0) {
                             layoutParams.height = SuperPlayerUtils.getScreenWidth(activity) * 9 / 16;
                         } else {
@@ -672,51 +703,41 @@ public class SuperPlayer extends RelativeLayout {
         setFullScreen(fullScreen);
     }
     // TODO 这个是防止项目没有引用v7包
-//	private void tryFullScreen(boolean fullScreen) {
-//		if (activity instanceof Activity) {
-//			android.app.ActionBar supportActionBar = ((Activity) activity)
-//					.getActionBar();
-//			if (supportActionBar != null) {
-//				if (fullScreen) {
-//					supportActionBar.hide();
-//				} else {
-//					supportActionBar.show();
-//				}
-//			}
-//		}
-//		setFullScreen(fullScreen);
-//	}
+    //	private void tryFullScreen(boolean fullScreen) {
+    //		if (activity instanceof Activity) {
+    //			android.app.ActionBar supportActionBar = ((Activity) activity)
+    //					.getActionBar();
+    //			if (supportActionBar != null) {
+    //				if (fullScreen) {
+    //					supportActionBar.hide();
+    //				} else {
+    //					supportActionBar.show();
+    //				}
+    //			}
+    //		}
+    //		setFullScreen(fullScreen);
+    //	}
 
-    private void setFullScreen(boolean fullScreen) {
+    private SuperPlayer setFullScreen(boolean fullScreen) {
         if (activity != null) {
-            //隐藏显示actionbar
-            if (activity instanceof AppCompatActivity) {
-                ActionBar supportActionBar = ((AppCompatActivity) activity).getSupportActionBar();
-                if (supportActionBar != null) {
-                    if (fullScreen) {
-                        supportActionBar.hide();
-                    } else {
-                        supportActionBar.show();
-                    }
-                }
-            }
-            
             WindowManager.LayoutParams attrs = activity.getWindow()
-                    .getAttributes();
+                                                       .getAttributes();
             if (fullScreen) {
                 attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
                 attrs.flags |= Window.FEATURE_NO_TITLE;
-                activity.getWindow().setAttributes(attrs);
-//                activity.getWindow().addFlags(
-//                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+                activity.getWindow()
+                        .setAttributes(attrs);
+                //                activity.getWindow().addFlags(
+                //                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             } else {
                 attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                activity.getWindow().setAttributes(attrs);
-//                activity.getWindow().clearFlags(
-//                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+                activity.getWindow()
+                        .setAttributes(attrs);
+                //                activity.getWindow().clearFlags(
+                //                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             }
         }
-
+        return this;
     }
 
     /**
@@ -750,11 +771,10 @@ public class SuperPlayer extends RelativeLayout {
             }
         }
     }
+
     /**
      * 监听全屏跟非全屏
      * 在activity中的onConfigurationChanged中需要回调
-     * 
-     * @param newConfig
      */
     public void onConfigurationChanged(final Configuration newConfig) {
         portrait = newConfig.orientation == Configuration.ORIENTATION_PORTRAIT;
@@ -770,7 +790,7 @@ public class SuperPlayer extends RelativeLayout {
         handler.removeCallbacksAndMessages(null);
         videoView.stopPlayback();
     }
-    
+
     public boolean onBackPressed() {
         if (!fullScreenOnly
                 && getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
@@ -779,6 +799,7 @@ public class SuperPlayer extends RelativeLayout {
         }
         return false;
     }
+
     /**
      * 显示错误信息
      *
@@ -786,9 +807,12 @@ public class SuperPlayer extends RelativeLayout {
      * @param btnText    错误按钮提示
      */
     private void showStatus(String statusText, String btnText) {
-        $.id(R.id.view_jky_player_tip_control).visible();
-        $.id(R.id.view_jky_player_tip_text).text(statusText);
-        $.id(R.id.view_jky_player_tv_continue).text(btnText);
+        $.id(R.id.view_jky_player_tip_control)
+         .visible();
+        $.id(R.id.view_jky_player_tip_text)
+         .text(statusText);
+        $.id(R.id.view_jky_player_tv_continue)
+         .text(btnText);
         isPrepare = false;// 设置点击不能出现控制栏
     }
 
@@ -824,10 +848,12 @@ public class SuperPlayer extends RelativeLayout {
         if (isNetListener
                 && (NetUtils.getNetworkType(activity) == 2 || NetUtils
                 .getNetworkType(activity) == 4)) {// 手机网络的情况下
-            $.id(R.id.view_jky_player_tip_control).visible();
+            $.id(R.id.view_jky_player_tip_control)
+             .visible();
         } else {
             if (playerSupport) {
-                $.id(R.id.app_video_loading).visible();
+                $.id(R.id.app_video_loading)
+                 .visible();
                 videoView.setVideoPath(url);
                 if (isLive) {
                     videoView.seekTo(0);
@@ -841,8 +867,6 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * 播放切换视频源地址
-     *
-     * @param url
      */
     public void playSwitch(String url) {
         this.url = url;
@@ -854,9 +878,6 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * 格式化显示的时间
-     *
-     * @param time
-     * @return
      */
     private String generateTime(long time) {
         int totalSeconds = (int) (time / 1000);
@@ -868,10 +889,13 @@ public class SuperPlayer extends RelativeLayout {
     }
 
     private int getScreenOrientation() {
-        int rotation = activity.getWindowManager().getDefaultDisplay()
-                .getRotation();
+        int rotation = activity.getWindowManager()
+                               .getDefaultDisplay()
+                               .getRotation();
         DisplayMetrics dm = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        activity.getWindowManager()
+                .getDefaultDisplay()
+                .getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
         int orientation;
@@ -922,8 +946,6 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * 滑动改变声音大小
-     *
-     * @param percent
      */
     private void onVolumeSlide(float percent) {
         if (volume == -1) {
@@ -949,13 +971,19 @@ public class SuperPlayer extends RelativeLayout {
             s = "off";
         }
         // 显示
-        $.id(R.id.app_video_volume_icon).image(
-                i == 0 ? R.drawable.superplayer_ic_volume_off_white_36dp
-                        : R.drawable.superplayer_ic_volume_up_white_36dp);
-        $.id(R.id.app_video_brightness_box).gone();
-        $.id(R.id.app_video_volume_box).visible();
-        $.id(R.id.app_video_volume_box).visible();
-        $.id(R.id.app_video_volume).text(s).visible();
+        $.id(R.id.app_video_volume_icon)
+         .image(
+                 i == 0 ? R.drawable.superplayer_ic_volume_off_white_36dp
+                         : R.drawable.superplayer_ic_volume_up_white_36dp);
+        $.id(R.id.app_video_brightness_box)
+         .gone();
+        $.id(R.id.app_video_volume_box)
+         .visible();
+        $.id(R.id.app_video_volume_box)
+         .visible();
+        $.id(R.id.app_video_volume)
+         .text(s)
+         .visible();
     }
 
     private void onProgressSlide(float percent) {
@@ -973,42 +1001,50 @@ public class SuperPlayer extends RelativeLayout {
         }
         int showDelta = (int) delta / 1000;
         if (showDelta != 0) {
-            $.id(R.id.app_video_fastForward_box).visible();
+            $.id(R.id.app_video_fastForward_box)
+             .visible();
             String text = showDelta > 0 ? ("+" + showDelta) : "" + showDelta;
-            $.id(R.id.app_video_fastForward).text(text + "s");
-            $.id(R.id.app_video_fastForward_target).text(
-                    generateTime(newPosition) + "/");
-            $.id(R.id.app_video_fastForward_all).text(generateTime(duration));
+            $.id(R.id.app_video_fastForward)
+             .text(text + "s");
+            $.id(R.id.app_video_fastForward_target)
+             .text(
+                     generateTime(newPosition) + "/");
+            $.id(R.id.app_video_fastForward_all)
+             .text(generateTime(duration));
         }
     }
 
     /**
      * 滑动改变亮度
-     *
-     * @param percent
      */
     private void onBrightnessSlide(float percent) {
         if (brightness < 0) {
-            brightness = activity.getWindow().getAttributes().screenBrightness;
+            brightness = activity.getWindow()
+                                 .getAttributes().screenBrightness;
             if (brightness <= 0.00f) {
                 brightness = 0.50f;
             } else if (brightness < 0.01f) {
                 brightness = 0.01f;
             }
         }
-        Log.d(this.getClass().getSimpleName(), "brightness:" + brightness
+        Log.d(this.getClass()
+                  .getSimpleName(), "brightness:" + brightness
                 + ",percent:" + percent);
-        $.id(R.id.app_video_brightness_box).visible();
-        WindowManager.LayoutParams lpa = activity.getWindow().getAttributes();
+        $.id(R.id.app_video_brightness_box)
+         .visible();
+        WindowManager.LayoutParams lpa = activity.getWindow()
+                                                 .getAttributes();
         lpa.screenBrightness = brightness + percent;
         if (lpa.screenBrightness > 1.0f) {
             lpa.screenBrightness = 1.0f;
         } else if (lpa.screenBrightness < 0.01f) {
             lpa.screenBrightness = 0.01f;
         }
-        $.id(R.id.app_video_brightness).text(
-                ((int) (lpa.screenBrightness * 100)) + "%");
-        activity.getWindow().setAttributes(lpa);
+        $.id(R.id.app_video_brightness)
+         .text(
+                 ((int) (lpa.screenBrightness * 100)) + "%");
+        activity.getWindow()
+                .setAttributes(lpa);
 
     }
 
@@ -1029,8 +1065,10 @@ public class SuperPlayer extends RelativeLayout {
         }
 
         this.duration = duration;
-        $.id(R.id.app_video_currentTime).text(generateTime(position));
-        $.id(R.id.app_video_endTime).text(generateTime(this.duration));
+        $.id(R.id.app_video_currentTime)
+         .text(generateTime(position));
+        $.id(R.id.app_video_endTime)
+         .text(generateTime(this.duration));
         return position;
     }
 
@@ -1038,9 +1076,11 @@ public class SuperPlayer extends RelativeLayout {
         if (force || isShowing) {
             handler.removeMessages(MESSAGE_SHOW_PROGRESS);
             showBottomControl(false);
-            $.id(R.id.view_jky_player_center_control).gone();
+            $.id(R.id.view_jky_player_center_control)
+             .gone();
             showTopControl(false);
-            $.id(R.id.view_jky_player_fullscreen).invisible();
+            $.id(R.id.view_jky_player_fullscreen)
+             .invisible();
             isShowing = false;
         }
     }
@@ -1050,47 +1090,38 @@ public class SuperPlayer extends RelativeLayout {
      */
     private void updateFullScreenButton() {
         if (getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {// 全屏幕
-            $.id(R.id.view_jky_player_fullscreen).image(R.drawable.superplayer_ic_not_fullscreen);
-            
-            $.id(R.id.view_jky_player_iv_share).gone();
+            $.id(R.id.view_jky_player_fullscreen)
+             .image(R.drawable.superplayer_ic_not_fullscreen);
+
+            $.id(R.id.view_jky_player_iv_share)
+             .gone();
             if (onClickSetting != null) {
-                $.id(R.id.view_jky_play_iv_setting).visible();
-            }else {
-                $.id(R.id.view_jky_play_iv_setting).gone();
+                $.id(R.id.view_jky_play_iv_setting)
+                 .visible();
+            } else {
+                $.id(R.id.view_jky_play_iv_setting)
+                 .gone();
             }
         } else {
-            $.id(R.id.view_jky_player_fullscreen).image(R.drawable.superplayer_ic_enlarge);
+            $.id(R.id.view_jky_player_fullscreen)
+             .image(R.drawable.superplayer_ic_enlarge);
             if (onClickShare != null) {
-                $.id(R.id.view_jky_player_iv_share).visible();
-            }else{
-                $.id(R.id.view_jky_player_iv_share).gone();
+                $.id(R.id.view_jky_player_iv_share)
+                 .visible();
+            } else {
+                $.id(R.id.view_jky_player_iv_share)
+                 .gone();
             }
-            $.id(R.id.view_jky_play_iv_setting).gone();
+            $.id(R.id.view_jky_play_iv_setting)
+             .gone();
         }
     }
 
-    /**
-     * 设置只能全屏
-     *
-     * @param fullScreenOnly true ： 只能全屏 false ： 小屏幕显示
-     */
-    public void setFullScreenOnly(boolean fullScreenOnly) {
-        this.fullScreenOnly = fullScreenOnly;
-        tryFullScreen(fullScreenOnly);
-        if (fullScreenOnly) {
-            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else {
-            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-        }
-        updateFullScreenButton();
-    }
 
     /**
      * using constants in GiraffePlayer,eg: GiraffePlayer.SCALETYPE_FITPARENT
-     *
-     * @param scaleType
      */
-    public void setScaleType(String scaleType) {
+    public SuperPlayer setScaleType(String scaleType) {
         if (SCALETYPE_FITPARENT.equals(scaleType)) {
             videoView.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT);
         } else if (SCALETYPE_FILLPARENT.equals(scaleType)) {
@@ -1104,15 +1135,16 @@ public class SuperPlayer extends RelativeLayout {
         } else if (SCALETYPE_4_3.equals(scaleType)) {
             videoView.setAspectRatio(IRenderView.AR_4_3_FIT_PARENT);
         }
+        return this;
     }
 
     /**
      * 是否显示左上导航图标(一般有actionbar or appToolbar时需要隐藏)
-     *
-     * @param show
      */
-    public void setShowNavIcon(boolean show) {
-        $.id(R.id.app_video_finish).visibility(show ? View.VISIBLE : View.GONE);
+    public SuperPlayer setShowNavIcon(boolean show) {
+        $.id(R.id.app_video_finish)
+         .visibility(show ? View.VISIBLE : View.GONE);
+        return this;
     }
 
     public void start() {
@@ -1125,7 +1157,7 @@ public class SuperPlayer extends RelativeLayout {
 
     class Query {
         private final Activity activity;
-        private View view;
+        private       View     view;
 
         public Query(Activity activity) {
             this.activity = activity;
@@ -1262,8 +1294,6 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * is player support this device
-     *
-     * @return
      */
     public boolean isPlayerSupport() {
         return playerSupport;
@@ -1271,8 +1301,6 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * 是否正在播放
-     *
-     * @return
      */
     public boolean isPlaying() {
         return videoView != null ? videoView.isPlaying() : false;
@@ -1310,9 +1338,6 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * 快退快退（取决于传进来的percent）
-     *
-     * @param percent
-     * @return
      */
     public SuperPlayer forward(float percent) {
         if (isLive || percent > 1 || percent < -1) {
@@ -1327,8 +1352,6 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * 获取当前播放的currentPosition
-     *
-     * @return
      */
     public int getCurrentPosition() {
         if (!isLive) {
@@ -1341,8 +1364,6 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * 获取视频的总长度
-     *
-     * @return
      */
     public int getDuration() {
         return videoView.getDuration();
@@ -1356,6 +1377,23 @@ public class SuperPlayer extends RelativeLayout {
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             updateFullScreenButton();
         }
+        return this;
+    }
+
+    /**
+     * 设置只能全屏
+     *
+     * @param fullScreenOnly true ： 只能全屏 false ： 小屏幕显示
+     */
+    public SuperPlayer setFullScreenOnly(boolean fullScreenOnly) {
+        this.fullScreenOnly = fullScreenOnly;
+        tryFullScreen(fullScreenOnly);
+        if (fullScreenOnly) {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        }
+        updateFullScreenButton();
         return this;
     }
 
@@ -1416,9 +1454,6 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * set is live (can't seek forward)
-     *
-     * @param isLive
-     * @return
      */
     public SuperPlayer setLive(boolean isLive) {
         this.isLive = isLive;
@@ -1485,11 +1520,13 @@ public class SuperPlayer extends RelativeLayout {
                 statusChange(STATUS_PAUSE);
                 videoView.pause();
                 updatePausePlay();
-                $.id(R.id.app_video_loading).gone();
+                $.id(R.id.app_video_loading)
+                 .gone();
                 onNetChangeListener.onMobile();
                 showStatus(
-                        activity.getResources().getString(
-                                R.string.IjkPlayer_player_not_wifi), "继续");
+                        activity.getResources()
+                                .getString(
+                                        R.string.IjkPlayer_player_not_wifi), "继续");
             } else if (NetUtils.getNetworkType(activity) == 1) {// 网络链接断开
                 onPause();
                 onNetChangeListener.onDisConnect();
@@ -1503,18 +1540,17 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * 设置控制栏退出时间
-     * @return
      */
-    public SuperPlayer setControlShowTimeOut(int timeOut){
+    public SuperPlayer setControlShowTimeOut(int timeOut) {
         this.defaultTimeout = timeOut;
         return this;
     }
-    
-    public SuperPlayer setOrientationEventEnable(boolean isSupportOrientationEvent){
+
+    public SuperPlayer setOrientationEventEnable(boolean isSupportOrientationEvent) {
         this.isSupportOrientationEvent = isSupportOrientationEvent;
         return this;
     }
-    
+
     /**
      * 是否显示中心控制器
      *
@@ -1526,9 +1562,9 @@ public class SuperPlayer extends RelativeLayout {
     }
 
     /**
-     * 是否显示头部控制器 
+     * 是否显示头部控制器
+     *
      * @param isShowTopControl true：显示 false ： 不显示
-     * @return
      */
     public SuperPlayer setShowTopControl(boolean isShowTopControl) {
         this.isShowTopControl = isShowTopControl;
@@ -1537,9 +1573,6 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * 点击的时候是否显示控制栏， false为隐藏全部控制栏
-     *
-     * @param isHideControl
-     * @return
      */
     public SuperPlayer setHideControl(boolean isHideControl) {
         this.isHideControl = isHideControl;
@@ -1550,7 +1583,6 @@ public class SuperPlayer extends RelativeLayout {
      * 设置播放视频是否有网络变化的监听
      *
      * @param isNetListener true ： 监听 false ： 不监听
-     * @return
      */
     public SuperPlayer setNetChangeListener(boolean isNetListener) {
         this.isNetListener = isNetListener;
@@ -1562,7 +1594,6 @@ public class SuperPlayer extends RelativeLayout {
      *
      * @param isSupportGesture true : 支持（小屏幕支持，大屏幕支持）
      *                         false ：不支持（小屏幕不支持,大屏幕支持）
-     * @return
      */
     public SuperPlayer setSupportGesture(boolean isSupportGesture) {
         this.isSupportGesture = isSupportGesture;
@@ -1571,19 +1602,18 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * 设置是否支持双击切换纵横比
-     * @param isAspectRatioEnable   true 支持，false 不支持
-     * @return
+     *
+     * @param isAspectRatioEnable true 支持，false 不支持
      */
-    public SuperPlayer setSupportAspectRatio(boolean isAspectRatioEnable){
+    public SuperPlayer setSupportAspectRatio(boolean isAspectRatioEnable) {
         this.isAspectRatioEnable = isAspectRatioEnable;
         return this;
     }
 
     /**
      * 是否显示设置按钮 设置监听就显示 否则不显示  默认全屏显示设置
-     * @return
      */
-    public SuperPlayer setSettingListener(OnClickListener onClickListener){
+    public SuperPlayer setSettingListener(OnClickListener onClickListener) {
         this.onClickSetting = onClickListener;
         return this;
     }
@@ -1591,19 +1621,18 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * 是否显示分享按钮  设置监听就显示，否则不显示 默认小屏显示分享
-     * @return
      */
-    public SuperPlayer setShareListener(OnClickListener onClickListener){
+    public SuperPlayer setShareListener(OnClickListener onClickListener) {
         this.onClickShare = onClickListener;
         return this;
     }
-    
+
 
     /**
      * 设置了竖屏的时候播放器的宽高
-     * @param width 0：默认是屏幕的宽度
+     *
+     * @param width  0：默认是屏幕的宽度
      * @param height 0：默认是宽度的16:9
-     * @return
      */
     public SuperPlayer setPlayerWH(int width, int height) {
         this.initWidth = width;
@@ -1613,8 +1642,6 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * 获取到当前播放的状态
-     *
-     * @return
      */
     public int getVideoStatus() {
         return videoView.getCurrentState();
@@ -1622,9 +1649,6 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * 获得某个控件
-     *
-     * @param ViewId
-     * @return
      */
     public View getView(int ViewId) {
         return activity.findViewById(ViewId);
