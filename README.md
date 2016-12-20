@@ -8,7 +8,7 @@
 app的build.gradle中添加
 ```
 dependencies {
-    compile 'com.github.zcolin:ZIjkPlayer:1.0.9'
+    compile 'com.github.zcolin:ZIjkPlayer:1.1.0'
 }
 ```
 工程的build.gradle中添加
