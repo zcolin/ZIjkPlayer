@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#000" >
 
-    <com.superplayer.library.mediaplayer.IjkVideoView
+    <com.zplayer.library.mediaplayer.IjkVideoView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

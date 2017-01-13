@@ -14,8 +14,8 @@ import android.widget.RelativeLayout;
 
 import com.supercwn.player.adapter.SuperVideoAdapter;
 import com.supercwn.player.bean.VideoListBean;
-import com.superplayer.library.SuperListPlayer;
-import com.superplayer.library.SuperPlayer;
+import com.zplayer.library.ZListPlayer;
+import com.zplayer.library.ZPlayer;
 
 import java.util.ArrayList;
 
@@ -41,13 +41,13 @@ public class VideoRecyclerViewActivity extends BaseVideoRecycleViewActivity {
     }
 
     @Override
-    protected SuperListPlayer initPlayer() {
-        SuperListPlayer player = (SuperListPlayer) findViewById(R.id.superlistplayer);
+    protected ZListPlayer initPlayer() {
+        ZListPlayer player = (ZListPlayer) findViewById(R.id.superlistplayer);
         player.getPlayer()
               .setNetChangeListener(true)//设置监听手机网络的变化,这个参数是内部是否处理网络监听，和setOnNetChangeListener没有关系
               .setShowTopControl(false)
               .setSupportGesture(false)
-              .setScaleType(SuperPlayer.SCALETYPE_FILLPARENT);
+              .setScaleType(ZPlayer.SCALETYPE_FILLPARENT);
         return player;
     }
 

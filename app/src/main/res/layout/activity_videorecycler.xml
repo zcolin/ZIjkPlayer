@@ -11,10 +11,10 @@
         android:background="?attr/colorPrimary">
     </android.support.v7.widget.Toolbar>
 
-    <com.superplayer.library.SuperListPlayer
+    <com.zplayer.library.ZListPlayer
         android:id="@+id/superlistplayer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.superplayer.library.SuperListPlayer>
+    </com.zplayer.library.ZListPlayer>
 </LinearLayout>

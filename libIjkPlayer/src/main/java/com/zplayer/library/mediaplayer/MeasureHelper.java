@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.superplayer.library.mediaplayer;
+package com.zplayer.library.mediaplayer;
 
 import java.lang.ref.WeakReference;
 

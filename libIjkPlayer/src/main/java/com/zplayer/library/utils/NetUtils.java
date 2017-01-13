@@ -1,4 +1,4 @@
-package com.superplayer.library.utils;
+package com.zplayer.library.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

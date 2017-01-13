@@ -11,11 +11,11 @@
         android:background="?attr/colorPrimary">
     </android.support.v7.widget.Toolbar>
 
-    <com.superplayer.library.SuperPlayer
+    <com.zplayer.library.ZPlayer
         android:id="@+id/view_super_player"
         android:layout_width="match_parent"
         android:layout_height="210dp">
-    </com.superplayer.library.SuperPlayer>
+    </com.zplayer.library.ZPlayer>
 
     <TextView
         android:id="@+id/tv_replay"

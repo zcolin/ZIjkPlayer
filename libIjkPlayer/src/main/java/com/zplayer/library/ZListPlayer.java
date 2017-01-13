@@ -6,7 +6,7 @@
  *   date     16-10-18 上午10:46
  * *********************************************************
  */
-package com.superplayer.library;
+package com.zplayer.library;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -19,15 +19,16 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.superplayer.library.mediaplayer.IjkVideoView;
+import com.superplayer.library.R;
+import com.zplayer.library.mediaplayer.IjkVideoView;
 
 /**
  * 针对列表的Player
  */
-public class SuperListPlayer extends RelativeLayout {
+public class ZListPlayer extends RelativeLayout {
 
     private MChildAttachStateChageListener childAttachStateChageListener = new MChildAttachStateChageListener();
-    private SuperPlayer         player;
+    private ZPlayer             player;
     private RecyclerView        recyclerView;
     private FrameLayout         flRecyclerViewParent;
     private RelativeLayout      rlFullScreenLay;
@@ -36,15 +37,15 @@ public class SuperListPlayer extends RelativeLayout {
     private int lastPostion = -1; //上次的item位置
     private Context context;
 
-    public SuperListPlayer(Context context) {
+    public ZListPlayer(Context context) {
         this(context, null);
     }
 
-    public SuperListPlayer(Context context, AttributeSet attrs) {
+    public ZListPlayer(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SuperListPlayer(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ZListPlayer(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
 
@@ -52,7 +53,7 @@ public class SuperListPlayer extends RelativeLayout {
     }
 
     private void init() {
-        player = new SuperPlayer(context);
+        player = new ZPlayer(context);
         LayoutInflater.from(context)
                       .inflate(R.layout.view_super_listplayer, this);
         flRecyclerViewParent = (FrameLayout) findViewById(R.id.fl_recycleview_superlistvideo);
@@ -212,7 +213,7 @@ public class SuperListPlayer extends RelativeLayout {
         player.onResume();
     }
 
-    public SuperPlayer getPlayer() {
+    public ZPlayer getPlayer() {
         return player;
     }
 

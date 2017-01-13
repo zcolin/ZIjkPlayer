@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
-import com.superplayer.library.SuperPlayer;
+import com.zplayer.library.ZPlayer;
 
 /**
  * 类描述：视频详情页
@@ -15,7 +15,7 @@ import com.superplayer.library.SuperPlayer;
  * <p>
  * update by colin on 2016-10-18
  */
-public class VideoPlayActivity extends BaseVideoPlayActivity implements View.OnClickListener, SuperPlayer.OnNetChangeListener {
+public class VideoPlayActivity extends BaseVideoPlayActivity implements View.OnClickListener, ZPlayer.OnNetChangeListener {
 
     private boolean isLive;
 
@@ -49,15 +49,15 @@ public class VideoPlayActivity extends BaseVideoPlayActivity implements View.OnC
     }
 
     @Override
-    protected SuperPlayer initPlayer() {
-        SuperPlayer player = (SuperPlayer) findViewById(R.id.view_super_player);
+    protected ZPlayer initPlayer() {
+        ZPlayer player = (ZPlayer) findViewById(R.id.view_super_player);
         player.setLive(isLive)//设置该地址是直播的地址
               .setNetChangeListener(true)//设置监听手机网络的变化,这个参数是内部是否处理网络监听，和setOnNetChangeListener没有关系
               .setOnNetChangeListener(this)//实现网络变化的回调
-              .setScaleType(SuperPlayer.SCALETYPE_FITXY)
+              .setScaleType(ZPlayer.SCALETYPE_FITXY)
               .setPlayerWH(0, player.getMeasuredHeight())//设置竖屏的时候屏幕的高度，如果不设置会切换后按照16:9的高度重置
               .setAlwaysShowControl()  //设置则一直显示
-              .onPrepared(new SuperPlayer.OnPreparedListener() {
+              .onPrepared(new ZPlayer.OnPreparedListener() {
                   @Override
                   public void onPrepared() {
                       //TODO 监听视频是否已经准备完成开始播放。（可以在这里处理视频封面的显示跟隐藏）
@@ -69,13 +69,13 @@ public class VideoPlayActivity extends BaseVideoPlayActivity implements View.OnC
                       //TODO 监听视频是否已经播放完成了。（可以在这里处理视频播放完成进行的操作）
                   }
               })
-              .onInfo(new SuperPlayer.OnInfoListener() {
+              .onInfo(new ZPlayer.OnInfoListener() {
                   @Override
                   public void onInfo(int what, int extra) {
                       //TODO 监听视频的相关信息。
                   }
               })
-              .onError(new SuperPlayer.OnErrorListener() {
+              .onError(new ZPlayer.OnErrorListener() {
                   @Override
                   public void onError(int what, int extra) {
                       //TODO 监听视频播放失败的回调
