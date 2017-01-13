@@ -6,7 +6,7 @@
  *   date     16-10-11 下午3:41
  * *********************************************************
  */
-package com.supercwn.player.adapter;
+package com.zplayer.demo.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;

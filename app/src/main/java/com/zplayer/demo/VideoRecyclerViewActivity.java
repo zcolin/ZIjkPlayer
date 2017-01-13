@@ -6,14 +6,15 @@
  *   date     16-10-19 下午1:05
  * *********************************************************
  */
-package com.supercwn.player;
+package com.zplayer.demo;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.RelativeLayout;
 
-import com.supercwn.player.adapter.SuperVideoAdapter;
-import com.supercwn.player.bean.VideoListBean;
+import com.supercwn.player.R;
+import com.zplayer.demo.adapter.SuperVideoAdapter;
+import com.zplayer.demo.bean.VideoListBean;
 import com.zplayer.library.ZListPlayer;
 import com.zplayer.library.ZPlayer;
 

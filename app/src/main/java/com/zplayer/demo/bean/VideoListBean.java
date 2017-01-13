@@ -1,4 +1,4 @@
-package com.supercwn.player.bean;
+package com.zplayer.demo.bean;
 
 /**
  *

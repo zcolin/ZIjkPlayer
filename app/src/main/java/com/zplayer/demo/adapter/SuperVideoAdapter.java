@@ -6,7 +6,7 @@
  *   date     16-10-19 下午3:41
  * *********************************************************
  */
-package com.supercwn.player.adapter;
+package com.zplayer.demo.adapter;
 
 import android.app.Activity;
 import android.view.View;
@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.supercwn.player.R;
-import com.supercwn.player.bean.VideoListBean;
+import com.zplayer.demo.bean.VideoListBean;
 import com.zplayer.library.utils.ZPlayerUtils;
 
 

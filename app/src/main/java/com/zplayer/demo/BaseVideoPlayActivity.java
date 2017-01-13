@@ -6,7 +6,7 @@
  *   date     16-10-18 下午3:41
  * *********************************************************
  */
-package com.supercwn.player;
+package com.zplayer.demo;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
