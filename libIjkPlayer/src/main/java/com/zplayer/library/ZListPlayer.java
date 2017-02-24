@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.superplayer.library.R;
 import com.zplayer.library.mediaplayer.IjkVideoView;
 
 /**

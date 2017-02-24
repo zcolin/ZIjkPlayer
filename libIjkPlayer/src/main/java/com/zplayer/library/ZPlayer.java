@@ -30,7 +30,6 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.superplayer.library.R;
 import com.zplayer.library.mediaplayer.IRenderView;
 import com.zplayer.library.mediaplayer.IjkVideoView;
 import com.zplayer.library.utils.NetUtils;

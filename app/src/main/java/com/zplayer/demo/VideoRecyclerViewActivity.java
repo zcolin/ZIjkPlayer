@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.RelativeLayout;
 
-import com.supercwn.player.R;
 import com.zplayer.demo.adapter.SuperVideoAdapter;
 import com.zplayer.demo.bean.VideoListBean;
 import com.zplayer.library.ZListPlayer;

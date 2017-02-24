@@ -6,7 +6,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
-import com.supercwn.player.R;
 import com.zplayer.library.ZPlayer;
 
 /**
