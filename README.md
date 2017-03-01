@@ -1,5 +1,5 @@
 # ZIjkPlayer
-##基于IjkPlayer的视频播放库（[IjkPlayer](https://github.com/Bilibili/ijkplayer)是bilibili的一个开源项目，他基于ffmpeg开发，支持多种视频格式格式）. 在[SuperPlayer](https://github.com/supercwn/SuperPlayer)的基础上修改，修正了一些问题，增加了一些易用接口。支持点播、直播，全屏、列表播放。IjkPlayer的so库编译版本为0.6.0。
+##基于IjkPlayer的视频播放库（[IjkPlayer](https://github.com/Bilibili/ijkplayer)是bilibili的一个开源项目，他基于ffmpeg开发，支持多种视频格式格式）. 在[SuperPlayer](https://github.com/supercwn/SuperPlayer)的基础上修改，修正了一些问题，增加了一些易用接口。支持点播、直播，全屏、列表播放。IjkPlayer的so库编译版本为0.7.5。
 
 
 ## Gradle
