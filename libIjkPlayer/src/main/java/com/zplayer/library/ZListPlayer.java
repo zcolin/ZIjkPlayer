@@ -65,7 +65,11 @@ public class ZListPlayer extends RelativeLayout {
         player.onComplete(new Runnable() {
             @Override
             public void run() {
-                showView(R.id.IjkPlayer_rl_player_control);
+                if (player.isFullScreen()) {
+                    player.toggleFullScreen();
+                }else{
+                    showView(R.id.IjkPlayer_rl_player_control);
+                }
             }
         });
 
@@ -152,7 +156,7 @@ public class ZListPlayer extends RelativeLayout {
                     }
                     frameLayout.addView(player);
                 }
-                rlFullScreenLay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+//                rlFullScreenLay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
             } else {
                 ViewGroup viewGroup = (ViewGroup) player.getParent();
                 if (viewGroup == null)
@@ -160,7 +164,7 @@ public class ZListPlayer extends RelativeLayout {
                 viewGroup.removeAllViews();
                 rlFullScreenLay.addView(player);
                 rlFullScreenLay.setVisibility(View.VISIBLE);
-                rlFullScreenLay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+//                rlFullScreenLay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
             }
         } else {
             rlFullScreenLay.setVisibility(View.GONE);

@@ -102,7 +102,8 @@ public class ZPlayer extends RelativeLayout {
     private int STATUS_PLAYING   = 2;
     private int STATUS_PAUSE     = 3;
     private int STATUS_COMPLETED = 4;
-    private long pauseTime;
+    private long    pauseTime;
+    private boolean isFullScreen;
     private int     status              = STATUS_IDLE;
     private boolean isLive              = false;// 是否为直播
     private boolean isShowCenterControl = false;// 是否显示中心控制器
@@ -285,7 +286,7 @@ public class ZPlayer extends RelativeLayout {
         updatePausePlay();
         handler.sendEmptyMessage(MESSAGE_SHOW_PROGRESS);
         handler.removeMessages(MESSAGE_FADE_OUT);
-        if (timeout != 0) {
+        if (timeout != 0 && status == STATUS_PLAYING) {
             handler.sendMessageDelayed(handler.obtainMessage(MESSAGE_FADE_OUT),
                     timeout);
         }
@@ -430,12 +431,12 @@ public class ZPlayer extends RelativeLayout {
             Log.e("GiraffePlayer", "loadLibraries error", e);
         }
         int width = activity.getResources()
-                                    .getDisplayMetrics().widthPixels;
+                            .getDisplayMetrics().widthPixels;
         int height = activity.getResources()
-                                    .getDisplayMetrics().heightPixels;
+                             .getDisplayMetrics().heightPixels;
 
         screenWidthPixels = width > height ? width : height;
-        
+
         $ = new Query(activity);
         contentView = View.inflate(context, R.layout.view_super_player, this);
         videoView = (IjkVideoView) contentView.findViewById(R.id.video_view);
@@ -692,6 +693,7 @@ public class ZPlayer extends RelativeLayout {
 
     // TODO
     private void tryFullScreen(boolean fullScreen) {
+        isFullScreen = fullScreen;
         if (activity instanceof AppCompatActivity) {
             ActionBar supportActionBar = ((AppCompatActivity) activity)
                     .getSupportActionBar();
@@ -703,7 +705,7 @@ public class ZPlayer extends RelativeLayout {
                 }
             }
         }
-        
+
         setFullScreen(fullScreen);
         if (onFullScreen != null) {
             onFullScreen.onFullScreen(fullScreen);
@@ -730,12 +732,14 @@ public class ZPlayer extends RelativeLayout {
             WindowManager.LayoutParams attrs = activity.getWindow()
                                                        .getAttributes();
             if (fullScreen) {
+                attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
                 attrs.flags |= Window.FEATURE_NO_TITLE;
                 activity.getWindow()
                         .setAttributes(attrs);
                 //                activity.getWindow().addFlags(
                 //                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             } else {
+                attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 attrs.flags &= (~Window.FEATURE_NO_TITLE);
                 activity.getWindow()
                         .setAttributes(attrs);
@@ -1299,14 +1303,6 @@ public class ZPlayer extends RelativeLayout {
     }
 
     /**
-     * 设置全屏切换监听
-     * @param onFullScreenListener
-     */
-    public void setOnFullScreenListener(OnFullScreenListener onFullScreenListener){
-        this.onFullScreen = onFullScreenListener;
-    }
-
-    /**
      * is player support this device
      */
     public boolean isPlayerSupport() {
@@ -1335,6 +1331,14 @@ public class ZPlayer extends RelativeLayout {
     public void release() {
         videoView.release(true);
         videoView.seekTo(0);
+    }
+
+    /**
+     * 设置全屏切换监听
+     */
+    public ZPlayer setOnFullScreenListener(OnFullScreenListener onFullScreenListener) {
+        this.onFullScreen = onFullScreenListener;
+        return this;
     }
 
     /**
@@ -1660,6 +1664,13 @@ public class ZPlayer extends RelativeLayout {
         this.initWidth = width;
         this.initHeight = height;
         return this;
+    }
+
+    /**
+     * 当前是否为全屏状态
+     */
+    public boolean isFullScreen() {
+        return isFullScreen;
     }
 
     /**
