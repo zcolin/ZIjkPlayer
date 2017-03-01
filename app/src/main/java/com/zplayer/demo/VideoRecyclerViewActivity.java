@@ -46,6 +46,7 @@ public class VideoRecyclerViewActivity extends BaseVideoRecycleViewActivity {
         player.getPlayer()
               .setNetChangeListener(true)//设置监听手机网络的变化,这个参数是内部是否处理网络监听，和setOnNetChangeListener没有关系
               .setShowTopControl(false)
+              .setShowCenterControl(true)
               .setSupportGesture(false)
               .setScaleType(ZPlayer.SCALETYPE_FILLPARENT);
         return player;

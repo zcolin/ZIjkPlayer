@@ -238,9 +238,6 @@ public class ZPlayer extends RelativeLayout {
      * 更新暂停状态的控件显示
      */
     private void updatePausePlay() {
-        $.id(R.id.view_jky_player_center_control)
-         .visibility(
-                 isShowCenterControl ? View.VISIBLE : View.GONE);
         if (videoView.isPlaying()) {
             $.id(R.id.app_video_play)
              .image(R.drawable.superplayer_ic_pause);
