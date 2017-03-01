@@ -115,11 +115,12 @@ public class ZPlayer extends RelativeLayout {
     private boolean isAspectRatioEnable;//是否支持双击切换纵横比
     private boolean isSupportOrientationEvent;//是否支持重力感应
 
-    private OnClickListener     onClickSetting;//是否显示设置按钮 设置监听就显示 否则不显示  默认全屏显示设置
-    private OnClickListener     onClickShare;//是否显示分享按钮  设置监听就显示，否则不显示 默认小屏显示分享
+    private OnClickListener      onClickSetting;//是否显示设置按钮 设置监听就显示 否则不显示  默认全屏显示设置
+    private OnClickListener      onClickShare;//是否显示分享按钮  设置监听就显示，否则不显示 默认小屏显示分享
+    private OnFullScreenListener onFullScreen;//全屏小屏切换监听
     // 网络监听回调
-    private NetChangeReceiver   netChangeReceiver;
-    private OnNetChangeListener onNetChangeListener;
+    private NetChangeReceiver    netChangeReceiver;
+    private OnNetChangeListener  onNetChangeListener;
 
     private OrientationEventListener orientationEventListener;
     private int defaultTimeout = 3000;
@@ -641,8 +642,8 @@ public class ZPlayer extends RelativeLayout {
         $.id(R.id.view_jky_player_tip_control)
          .gone();
         hide(true);
-//      showBottomControl(false);
-//      showTopControl(false);
+        //      showBottomControl(false);
+        //      showTopControl(false);
     }
 
     private void doOnConfigurationChanged(final boolean portrait) {
@@ -697,7 +698,11 @@ public class ZPlayer extends RelativeLayout {
                 }
             }
         }
+        
         setFullScreen(fullScreen);
+        if (onFullScreen != null) {
+            onFullScreen.onFullScreen(fullScreen);
+        }
     }
     // TODO 这个是防止项目没有引用v7包
     //	private void tryFullScreen(boolean fullScreen) {
@@ -1290,6 +1295,14 @@ public class ZPlayer extends RelativeLayout {
     }
 
     /**
+     * 设置全屏切换监听
+     * @param onFullScreenListener
+     */
+    public void setOnFullScreenListener(OnFullScreenListener onFullScreenListener){
+        this.onFullScreen = onFullScreenListener;
+    }
+
+    /**
      * is player support this device
      */
     public boolean isPlayerSupport() {
@@ -1577,7 +1590,7 @@ public class ZPlayer extends RelativeLayout {
     }
 
     /**
-     *  是否一直显示控制栏
+     * 是否一直显示控制栏
      */
     public ZPlayer setAlwaysShowControl() {
         this.isAlwaysShowControl = true;
@@ -1657,5 +1670,12 @@ public class ZPlayer extends RelativeLayout {
      */
     public View getView(int ViewId) {
         return activity.findViewById(ViewId);
+    }
+
+    /**
+     * 切换全屏和小屏页面的时候监听
+     */
+    public interface OnFullScreenListener {
+        void onFullScreen(boolean isFullScreen);
     }
 }

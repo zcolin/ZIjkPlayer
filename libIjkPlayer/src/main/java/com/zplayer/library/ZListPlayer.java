@@ -69,7 +69,7 @@ public class ZListPlayer extends RelativeLayout {
             }
         });
 
-        
+
         recyclerView.addOnChildAttachStateChangeListener(childAttachStateChageListener);
     }
 
@@ -98,7 +98,7 @@ public class ZListPlayer extends RelativeLayout {
      * 默认已经有了RecyclerView，如果需要设置自己的RecyclerView，使用此函数
      * 因为有些下拉刷新组件是有外层view包裹的，就需要使用这个函数设置RecyclerView了
      */
-    public void setRecyclerView(ViewGroup recyclerViewLayout) {
+    public void setRecyclerViewLayout(ViewGroup recyclerViewLayout) {
         this.recyclerView = getRecyclerViewFromeViewGroup(recyclerViewLayout);
         if (recyclerView == null) {
             throw new IllegalArgumentException("ViewGroup 中没有RecyclerView");
@@ -214,6 +214,13 @@ public class ZListPlayer extends RelativeLayout {
 
     public ZPlayer getPlayer() {
         return player;
+    }
+
+    /**
+     * 设置全屏切换监听
+     */
+    public void setOnFullScreenListener(ZPlayer.OnFullScreenListener onFullScreenListener) {
+        player.setOnFullScreenListener(onFullScreenListener);
     }
 
     /**
