@@ -494,7 +494,6 @@ public class ZPlayer extends RelativeLayout {
                     @Override
                     public void run() {
                         hide(false);
-                        show(defaultTimeout);
                     }
                 }, 500);
                 if (onPreparedListener != null) {
@@ -833,9 +832,7 @@ public class ZPlayer extends RelativeLayout {
      */
     public void play(String url) {
         if (url != null) {
-            this.url = url;
             play(url, 0);
-
         }
     }
 
@@ -846,6 +843,7 @@ public class ZPlayer extends RelativeLayout {
      */
     public void play(String url, int currentPosition) {
         this.url = url;
+        hideAll();
         if (!isNetListener) {// 如果设置不监听网络的变化，则取消监听网络变化的广播
             unregisterNetReceiver();
         } else {
@@ -867,8 +865,8 @@ public class ZPlayer extends RelativeLayout {
                 videoView.setVideoPath(url);
                 if (isLive) {
                     videoView.seekTo(0);
-                } else {
-                    seekTo(currentPosition, true);
+                } else if (currentPosition > 0) {
+                    seekTo(currentPosition, false);
                 }
                 videoView.start();
             }

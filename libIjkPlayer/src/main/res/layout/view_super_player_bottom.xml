@@ -55,6 +55,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
+        android:splitTrack="false"
         android:layout_toLeftOf="@+id/app_video_endTime"
         android:layout_toRightOf="@+id/app_video_currentTime" />
 
