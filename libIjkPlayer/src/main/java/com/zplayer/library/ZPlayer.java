@@ -429,8 +429,13 @@ public class ZPlayer extends RelativeLayout {
         } catch (Throwable e) {
             Log.e("GiraffePlayer", "loadLibraries error", e);
         }
-        screenWidthPixels = activity.getResources()
+        int width = activity.getResources()
                                     .getDisplayMetrics().widthPixels;
+        int height = activity.getResources()
+                                    .getDisplayMetrics().heightPixels;
+
+        screenWidthPixels = width > height ? width : height;
+        
         $ = new Query(activity);
         contentView = View.inflate(context, R.layout.view_super_player, this);
         videoView = (IjkVideoView) contentView.findViewById(R.id.video_view);
@@ -725,14 +730,13 @@ public class ZPlayer extends RelativeLayout {
             WindowManager.LayoutParams attrs = activity.getWindow()
                                                        .getAttributes();
             if (fullScreen) {
-                attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
                 attrs.flags |= Window.FEATURE_NO_TITLE;
                 activity.getWindow()
                         .setAttributes(attrs);
                 //                activity.getWindow().addFlags(
                 //                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             } else {
-                attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                attrs.flags &= (~Window.FEATURE_NO_TITLE);
                 activity.getWindow()
                         .setAttributes(attrs);
                 //                activity.getWindow().clearFlags(
