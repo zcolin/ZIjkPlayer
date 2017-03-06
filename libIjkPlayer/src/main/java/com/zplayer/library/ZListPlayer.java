@@ -181,7 +181,7 @@ public class ZListPlayer extends RelativeLayout {
         }
 
         postion = position;
-        if (player.getVideoStatus() == IjkVideoView.STATE_PAUSED) {
+        if (player.isPlaying() || player.getVideoStatus() == IjkVideoView.STATE_PAUSED) {
             if (position != lastPostion) {
                 player.stop();
                 player.release();
@@ -215,6 +215,18 @@ public class ZListPlayer extends RelativeLayout {
     public void onResume() {
         player.onResume();
     }
+
+    /**
+     * 使用下拉刷新控件时需要调用
+     */
+    public void onRefresh(){
+        if (player != null) {
+            player.stop();
+            player.release();
+            showView(R.id.IjkPlayer_rl_player_control);
+        }
+    }
+
 
     public ZPlayer getPlayer() {
         return player;
@@ -251,16 +263,15 @@ public class ZListPlayer extends RelativeLayout {
             if (controlview == null) {
                 return;
             }
-            view.findViewById(R.id.IjkPlayer_rl_player_control)
-                .setVisibility(View.VISIBLE);
+            
+            controlview.setVisibility(View.VISIBLE);
             if (index == postion) {
                 FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.IjkPlayer_fl_super_video);
                 frameLayout.removeAllViews();
                 if (player.isPlaying() || player.getVideoStatus() == IjkVideoView.STATE_PAUSED) {
-                    view.findViewById(R.id.IjkPlayer_rl_player_control)
-                        .setVisibility(View.GONE);
+                    controlview.setVisibility(View.GONE);
                 }
-                if (player.getVideoStatus() == IjkVideoView.STATE_PAUSED) {
+                if (player.isPlaying() || player.getVideoStatus() == IjkVideoView.STATE_PAUSED) {
                     if (player.getParent() != null)
                         ((ViewGroup) player.getParent()).removeAllViews();
                     frameLayout.addView(player);

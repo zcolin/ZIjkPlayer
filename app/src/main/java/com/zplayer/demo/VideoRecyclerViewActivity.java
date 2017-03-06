@@ -8,10 +8,13 @@
  */
 package com.zplayer.demo;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.widget.RelativeLayout;
 
+import com.zcolin.gui.zrecyclerview.ZRecyclerView;
 import com.zplayer.demo.adapter.SuperVideoAdapter;
 import com.zplayer.demo.bean.VideoListBean;
 import com.zplayer.library.ZListPlayer;
@@ -23,16 +26,20 @@ import java.util.ArrayList;
  * 列表播放
  */
 public class VideoRecyclerViewActivity extends BaseVideoRecycleViewActivity {
+    private ZRecyclerView     zRecyclerView;
+    private SuperVideoAdapter mRecyclerViewAdapter;
+    private int mPage = 1;
+    private Activity mActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mActivity = this;
         super.onCreate(savedInstanceState);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.id_tool_bar);
         setSupportActionBar(toolbar);
-        
-        setData();
-        initAdapter();
+
+        zRecyclerView.refreshWithPull();
     }
 
     @Override
@@ -49,25 +56,79 @@ public class VideoRecyclerViewActivity extends BaseVideoRecycleViewActivity {
               .setShowCenterControl(true)
               .setSupportGesture(false)
               .setScaleType(ZPlayer.SCALETYPE_FILLPARENT);
+
+        //如果设置则使用指定的RecyclerView，否则使用默认的RecyclerView
+        player.setRecyclerViewLayout(initPullRecyclerView());
         return player;
     }
 
     /**
-     * 初始化适配器
+     * 初始化自己定义的recyclerView
      */
-    private void initAdapter() {
-        SuperVideoAdapter mAdapter = new SuperVideoAdapter(this);
-        mAdapter.addDatas(setData());
-        player.setAdapter(mAdapter);
-        mAdapter.setPlayClick(new SuperVideoAdapter.PlayClickListener() {
+    private ZRecyclerView initPullRecyclerView() {
+        zRecyclerView = new ZRecyclerView(mActivity);
+        zRecyclerView.setOnPullLoadMoreListener(new ZRecyclerView.PullLoadMoreListener() {
             @Override
-            public void onPlayClick(int position, VideoListBean data, RelativeLayout rlPlayControl) {
-                player.onPlayClick(position, data.getVideoUrl(), rlPlayControl);
+            public void onRefresh() {
+                mPage = 1;
+                player.onRefresh();
+                getDataFromShopList(mActivity, mPage);
+                zRecyclerView.setNoMore(false);
+            }
+
+            @Override
+            public void onLoadMore() {
+                mPage = mPage + 1;
+                getDataFromShopList(mActivity, mPage);
             }
         });
+
+        return zRecyclerView;
     }
 
-    private ArrayList<VideoListBean> setData() {
+    /**
+     * 制造假延时模拟服务器请求效果， 获取数据，添加到适配器
+     */
+    public void getDataFromShopList(final Activity activity, final int page) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addDataToRecyclerView(setList(page), page == 1);
+                zRecyclerView.setPullLoadMoreCompleted();
+                if (page == 3) {
+                    zRecyclerView.setNoMore(true);
+                }
+            }
+        }, 1500);
+    }
+
+    /**
+     * 适配器的初始话和数据更换
+     */
+    public void addDataToRecyclerView(ArrayList<VideoListBean> list, boolean isClear) {
+        if (mRecyclerViewAdapter == null) {
+            mRecyclerViewAdapter = new SuperVideoAdapter(mActivity);
+            mRecyclerViewAdapter.addDatas(list);
+            zRecyclerView.setAdapter(mRecyclerViewAdapter);
+            mRecyclerViewAdapter.setPlayClick(new SuperVideoAdapter.PlayClickListener() {
+                @Override
+                public void onPlayClick(int position, VideoListBean data, RelativeLayout rlPlayControl) {
+                    player.onPlayClick(position, data.getVideoUrl(), rlPlayControl);
+                }
+            });
+        } else {
+            if (isClear) {
+                mRecyclerViewAdapter.setDatas(list);
+            } else {
+                mRecyclerViewAdapter.addDatas(list);
+            }
+        }
+    }
+
+    /**
+     * 制造假数据
+     */
+    public ArrayList<VideoListBean> setList(int page) {
         ArrayList<VideoListBean> dataList = new ArrayList<>();
         dataList.clear();
         VideoListBean bean1 = new VideoListBean();

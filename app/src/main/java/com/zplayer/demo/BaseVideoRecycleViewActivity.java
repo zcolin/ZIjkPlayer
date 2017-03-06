@@ -11,10 +11,7 @@ package com.zplayer.demo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.RelativeLayout;
 
-import com.zplayer.demo.adapter.SuperVideoAdapter;
-import com.zplayer.demo.bean.VideoListBean;
 import com.zplayer.library.ZListPlayer;
 
 /**
@@ -84,12 +81,5 @@ public abstract class BaseVideoRecycleViewActivity extends AppCompatActivity {
             return;
         }
         super.onBackPressed();
-    }
-
-    protected class AdapterOnPlayClick implements SuperVideoAdapter.PlayClickListener {
-        @Override
-        public void onPlayClick(int position, VideoListBean data, RelativeLayout image) {
-            player.onPlayClick(position, data.getVideoUrl(), image);
-        }
     }
 }

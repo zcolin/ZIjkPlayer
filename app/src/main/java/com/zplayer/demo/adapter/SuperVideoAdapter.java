@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.zcolin.gui.zrecyclerview.BaseRecyclerAdapter;
 import com.zplayer.demo.R;
 import com.zplayer.demo.bean.VideoListBean;
 import com.zplayer.library.utils.ZPlayerUtils;
