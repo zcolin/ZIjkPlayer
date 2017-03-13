@@ -491,6 +491,7 @@ public class ZPlayer extends RelativeLayout {
                     @Override
                     public void run() {
                         hide(false);
+                        show(defaultTimeout);
                     }
                 }, 500);
                 if (onPreparedListener != null) {
@@ -632,7 +633,6 @@ public class ZPlayer extends RelativeLayout {
         } else if (newStatus == STATUS_PLAYING) {
             hideAll();
         }
-
     }
 
     /**
