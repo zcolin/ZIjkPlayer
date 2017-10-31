@@ -88,7 +88,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/iv_headicon"
             android:paddingLeft="8dp"
-            android:text="super南仔"/>
+            android:text="分类"/>
 
         <TextView
             android:id="@+id/tv_play_count"

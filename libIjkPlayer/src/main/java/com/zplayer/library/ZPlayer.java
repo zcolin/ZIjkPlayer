@@ -129,6 +129,7 @@ public class ZPlayer extends RelativeLayout {
 
     private int initWidth  = 0;
     private int initHeight = 0;
+    private boolean isShowLiveNumber;
 
     public ZPlayer(Context context) {
         this(context, null);
@@ -170,8 +171,7 @@ public class ZPlayer extends RelativeLayout {
                 }
             } else if (v.getId() == R.id.view_jky_player_tv_continue) {
                 isNetListener = false;// 取消网络的监听
-                $.id(R.id.view_jky_player_tip_control)
-                 .gone();
+                $.id(R.id.view_jky_player_tip_control).gone();
                 play(url, currentPosition);
             } else if (v.getId() == R.id.view_jky_play_iv_setting) {
                 if (onClickSetting != null) {
@@ -212,16 +212,14 @@ public class ZPlayer extends RelativeLayout {
     private boolean fullScreenOnly;
 
     public ZPlayer setTitle(CharSequence title) {
-        $.id(R.id.app_video_title)
-         .text(title);
+        $.id(R.id.app_video_title).text(title);
         return this;
     }
 
     private void doPauseResume() {
         if (status == STATUS_COMPLETED) {
             if (isShowCenterControl) {
-                $.id(R.id.view_jky_player_center_control)
-                 .visible();
+                $.id(R.id.view_jky_player_center_control).visible();
             }
             videoView.seekTo(0);
             videoView.start();
@@ -239,17 +237,11 @@ public class ZPlayer extends RelativeLayout {
      */
     private void updatePausePlay() {
         if (videoView.isPlaying()) {
-            $.id(R.id.app_video_play)
-             .image(R.drawable.superplayer_ic_pause);
-            $.id(R.id.view_jky_player_center_play)
-             .image(
-                     R.drawable.superplayer_ic_center_pause);
+            $.id(R.id.app_video_play).image(R.drawable.superplayer_ic_pause);
+            $.id(R.id.view_jky_player_center_play).image(R.drawable.superplayer_ic_center_pause);
         } else {
-            $.id(R.id.app_video_play)
-             .image(R.drawable.superplayer_ic_play);
-            $.id(R.id.view_jky_player_center_play)
-             .image(
-                     R.drawable.superplayer_ic_center_play);
+            $.id(R.id.app_video_play).image(R.drawable.superplayer_ic_play);
+            $.id(R.id.view_jky_player_center_play).image(R.drawable.superplayer_ic_center_play);
         }
     }
 
@@ -270,13 +262,11 @@ public class ZPlayer extends RelativeLayout {
                 showTopControl(true);
             }
             if (isShowCenterControl) {
-                $.id(R.id.view_jky_player_center_control)
-                 .visible();
+                $.id(R.id.view_jky_player_center_control).visible();
             }
             showBottomControl(true);
             if (!fullScreenOnly) {
-                $.id(R.id.view_jky_player_fullscreen)
-                 .visible();
+                $.id(R.id.view_jky_player_fullscreen).visible();
             }
             isShowing = true;
         }
@@ -284,8 +274,7 @@ public class ZPlayer extends RelativeLayout {
         handler.sendEmptyMessage(MESSAGE_SHOW_PROGRESS);
         handler.removeMessages(MESSAGE_FADE_OUT);
         if (timeout != 0 && status == STATUS_PLAYING) {
-            handler.sendMessageDelayed(handler.obtainMessage(MESSAGE_FADE_OUT),
-                    timeout);
+            handler.sendMessageDelayed(handler.obtainMessage(MESSAGE_FADE_OUT), timeout);
         }
     }
 
@@ -295,20 +284,15 @@ public class ZPlayer extends RelativeLayout {
      * @param show true ： 显示 false ： 隐藏
      */
     private void showBottomControl(boolean show) {
-        $.id(R.id.app_video_bottom_box)
-         .visibility(
-                 show ? View.VISIBLE : View.GONE);
+        $.id(R.id.app_video_bottom_box).visibility(show ? View.VISIBLE : View.GONE);
         if (isLive) {// 直播需要隐藏和显示一些底部的一些控件
-            $.id(R.id.app_video_play)
-             .gone();
-            $.id(R.id.app_video_currentTime)
-             .gone();
-            $.id(R.id.app_video_endTime)
-             .gone();
-            $.id(R.id.app_video_seekBar)
-             .gone();
-            $.id(R.id.view_jky_player_tv_number)
-             .visible();
+            $.id(R.id.app_video_play).gone();
+            $.id(R.id.app_video_currentTime).gone();
+            $.id(R.id.app_video_endTime).gone();
+            $.id(R.id.app_video_seekBar).gone();
+            if (isShowLiveNumber) {
+                $.id(R.id.view_jky_player_tv_number).visible();
+            }
         }
 
     }
@@ -317,8 +301,7 @@ public class ZPlayer extends RelativeLayout {
      * 隐藏和显示头部的一些控件
      */
     private void showTopControl(boolean show) {
-        $.id(R.id.app_video_top_box)
-         .visibility(show ? View.VISIBLE : View.GONE);
+        $.id(R.id.app_video_top_box).visibility(show ? View.VISIBLE : View.GONE);
         if (isLive) {// 对直播特定控件隐藏显示
 
         }
@@ -328,8 +311,7 @@ public class ZPlayer extends RelativeLayout {
      * 隐藏和显示中间控件
      */
     private void showCenterControl(boolean show) {
-        $.id(R.id.view_jky_player_center_control)
-         .visibility(show ? View.VISIBLE : View.GONE);
+        $.id(R.id.view_jky_player_center_control).visibility(show ? View.VISIBLE : View.GONE);
         if (isLive) {// 对直播特定控件隐藏显示
 
         }
@@ -340,19 +322,16 @@ public class ZPlayer extends RelativeLayout {
     private boolean isDragging;
     private final SeekBar.OnSeekBarChangeListener mSeekListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
-        public void onProgressChanged(SeekBar seekBar, int progress,
-                                      boolean fromUser) {
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             if (!fromUser)
                 return;
-            $.id(R.id.view_jky_player_tip_control)
-             .gone();// 移动时隐藏掉状态image
+            $.id(R.id.view_jky_player_tip_control).gone();// 移动时隐藏掉状态image
             int newPosition = (int) ((duration * progress * 1.0) / 1000);
             String time = generateTime(newPosition);
             if (instantSeeking) {
                 videoView.seekTo(newPosition);
             }
-            $.id(R.id.app_video_currentTime)
-             .text(time);
+            $.id(R.id.app_video_currentTime).text(time);
         }
 
         @Override
@@ -368,8 +347,7 @@ public class ZPlayer extends RelativeLayout {
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
             if (!instantSeeking) {
-                videoView
-                        .seekTo((int) ((duration * seekBar.getProgress() * 1.0) / 1000));
+                videoView.seekTo((int) ((duration * seekBar.getProgress() * 1.0) / 1000));
             }
             show(defaultTimeout);
             handler.removeMessages(MESSAGE_SHOW_PROGRESS);
@@ -388,12 +366,9 @@ public class ZPlayer extends RelativeLayout {
                     hide(false);
                     break;
                 case MESSAGE_HIDE_CENTER_BOX:
-                    $.id(R.id.app_video_volume_box)
-                     .gone();
-                    $.id(R.id.app_video_brightness_box)
-                     .gone();
-                    $.id(R.id.app_video_fastForward_box)
-                     .gone();
+                    $.id(R.id.app_video_volume_box).gone();
+                    $.id(R.id.app_video_brightness_box).gone();
+                    $.id(R.id.app_video_fastForward_box).gone();
                     break;
                 case MESSAGE_SEEK_NEW_POSITION:
                     if (!isLive && newPosition >= 0) {
@@ -427,24 +402,21 @@ public class ZPlayer extends RelativeLayout {
         } catch (Throwable e) {
             Log.e("GiraffePlayer", "loadLibraries error", e);
         }
-        int width = activity.getResources()
-                            .getDisplayMetrics().widthPixels;
-        int height = activity.getResources()
-                             .getDisplayMetrics().heightPixels;
+        int width = activity.getResources().getDisplayMetrics().widthPixels;
+        int height = activity.getResources().getDisplayMetrics().heightPixels;
 
         screenWidthPixels = width > height ? width : height;
 
         $ = new Query(activity);
         contentView = View.inflate(context, R.layout.view_super_player, this);
         videoView = (IjkVideoView) contentView.findViewById(R.id.video_view);
-        videoView
-                .setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(IMediaPlayer mp) {
-                        statusChange(STATUS_COMPLETED);
-                        oncomplete.run();
-                    }
-                });
+        videoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(IMediaPlayer mp) {
+                statusChange(STATUS_COMPLETED);
+                oncomplete.run();
+            }
+        });
         videoView.setOnErrorListener(new IMediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(IMediaPlayer mp, int what, int extra) {
@@ -503,26 +475,17 @@ public class ZPlayer extends RelativeLayout {
         seekBar = (SeekBar) contentView.findViewById(R.id.app_video_seekBar);
         seekBar.setMax(1000);
         seekBar.setOnSeekBarChangeListener(mSeekListener);
-        $.id(R.id.app_video_play)
-         .clicked(onClickListener);
-        $.id(R.id.view_jky_player_fullscreen)
-         .clicked(onClickListener);
-        $.id(R.id.app_video_finish)
-         .clicked(onClickListener);
-        $.id(R.id.view_jky_player_center_play)
-         .clicked(onClickListener);
-        $.id(R.id.view_jky_player_tv_continue)
-         .clicked(onClickListener);
-        $.id(R.id.view_jky_play_iv_setting)
-         .clicked(onClickListener);
-        $.id(R.id.view_jky_player_iv_share)
-         .clicked(onClickListener);
+        $.id(R.id.app_video_play).clicked(onClickListener);
+        $.id(R.id.view_jky_player_fullscreen).clicked(onClickListener);
+        $.id(R.id.app_video_finish).clicked(onClickListener);
+        $.id(R.id.view_jky_player_center_play).clicked(onClickListener);
+        $.id(R.id.view_jky_player_tv_continue).clicked(onClickListener);
+        $.id(R.id.view_jky_play_iv_setting).clicked(onClickListener);
+        $.id(R.id.view_jky_player_iv_share).clicked(onClickListener);
 
-        audioManager = (AudioManager) activity
-                .getSystemService(Context.AUDIO_SERVICE);
+        audioManager = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
         mMaxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        final GestureDetector gestureDetector = new GestureDetector(activity,
-                new PlayerGestureListener());
+        final GestureDetector gestureDetector = new GestureDetector(activity, new PlayerGestureListener());
 
         View liveBox = contentView.findViewById(R.id.app_video_box);
         liveBox.setClickable(true);
@@ -549,15 +512,13 @@ public class ZPlayer extends RelativeLayout {
         orientationEventListener = new OrientationEventListener(activity) {
             @Override
             public void onOrientationChanged(int orientation) {
-                if (orientation >= 0 && orientation <= 30 || orientation >= 330
-                        || (orientation >= 150 && orientation <= 210)) {
+                if (orientation >= 0 && orientation <= 30 || orientation >= 330 || (orientation >= 150 && orientation <= 210)) {
                     // 竖屏
                     if (portrait) {
                         activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                         orientationEventListener.disable();
                     }
-                } else if ((orientation >= 90 && orientation <= 120)
-                        || (orientation >= 240 && orientation <= 300)) {
+                } else if ((orientation >= 90 && orientation <= 120) || (orientation >= 240 && orientation <= 300)) {
                     if (!portrait) {
                         activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                         orientationEventListener.disable();
@@ -572,9 +533,7 @@ public class ZPlayer extends RelativeLayout {
         portrait = getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         hideAll();
         if (!playerSupport) {
-            showStatus(activity.getResources()
-                               .getString(R.string.IjkPlayer_not_support),
-                    "重试");
+            showStatus(activity.getResources().getString(R.string.IjkPlayer_not_support), "重试");
         }
 
         updateFullScreenButton();
@@ -604,32 +563,23 @@ public class ZPlayer extends RelativeLayout {
             handler.removeMessages(MESSAGE_SHOW_PROGRESS);
             hideAll();
             if (isShowCenterControl) {
-                $.id(R.id.view_jky_player_center_control)
-                 .visible();
+                $.id(R.id.view_jky_player_center_control).visible();
             }
             updatePausePlay();
         } else if (newStatus == STATUS_ERROR) {
             handler.removeMessages(MESSAGE_SHOW_PROGRESS);
             hideAll();
             if (isLive) {
-                showStatus(
-                        activity.getResources()
-                                .getString(
-                                        R.string.IjkPlayer_small_problem), "重试");
+                showStatus(activity.getResources().getString(R.string.IjkPlayer_small_problem), "重试");
                 if (defaultRetryTime > 0) {
-                    handler.sendEmptyMessageDelayed(MESSAGE_RESTART_PLAY,
-                            defaultRetryTime);
+                    handler.sendEmptyMessageDelayed(MESSAGE_RESTART_PLAY, defaultRetryTime);
                 }
             } else {
-                showStatus(
-                        activity.getResources()
-                                .getString(
-                                        R.string.IjkPlayer_small_problem), "重试");
+                showStatus(activity.getResources().getString(R.string.IjkPlayer_small_problem), "重试");
             }
         } else if (newStatus == STATUS_LOADING) {
             hideAll();
-            $.id(R.id.app_video_loading)
-             .visible();
+            $.id(R.id.app_video_loading).visible();
         } else if (newStatus == STATUS_PLAYING) {
             hideAll();
         }
@@ -639,10 +589,8 @@ public class ZPlayer extends RelativeLayout {
      * 隐藏全部的控件
      */
     private void hideAll() {
-        $.id(R.id.app_video_loading)
-         .gone();
-        $.id(R.id.view_jky_player_tip_control)
-         .gone();
+        $.id(R.id.app_video_loading).gone();
+        $.id(R.id.view_jky_player_tip_control).gone();
         hide(true);
         //      showBottomControl(false);
         //      showTopControl(false);
@@ -656,8 +604,7 @@ public class ZPlayer extends RelativeLayout {
                     tryFullScreen(!portrait);
                     if (portrait) {
                         ViewGroup.LayoutParams layoutParams = getLayoutParams();
-                        activity.getWindow()
-                                .clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                        activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                         if (initWidth != 0) {
                             layoutParams.width = initWidth;
                         }
@@ -691,8 +638,7 @@ public class ZPlayer extends RelativeLayout {
     private void tryFullScreen(boolean fullScreen) {
         isFullScreen = fullScreen;
         if (activity instanceof AppCompatActivity) {
-            ActionBar supportActionBar = ((AppCompatActivity) activity)
-                    .getSupportActionBar();
+            ActionBar supportActionBar = ((AppCompatActivity) activity).getSupportActionBar();
             if (supportActionBar != null) {
                 if (fullScreen) {
                     supportActionBar.hide();
@@ -725,20 +671,17 @@ public class ZPlayer extends RelativeLayout {
 
     private ZPlayer setFullScreen(boolean fullScreen) {
         if (activity != null) {
-            WindowManager.LayoutParams attrs = activity.getWindow()
-                                                       .getAttributes();
+            WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
             if (fullScreen) {
                 attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
                 attrs.flags |= Window.FEATURE_NO_TITLE;
-                activity.getWindow()
-                        .setAttributes(attrs);
+                activity.getWindow().setAttributes(attrs);
                 //                activity.getWindow().addFlags(
                 //                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             } else {
                 attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 attrs.flags &= (~Window.FEATURE_NO_TITLE);
-                activity.getWindow()
-                        .setAttributes(attrs);
+                activity.getWindow().setAttributes(attrs);
                 //                activity.getWindow().clearFlags(
                 //                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             }
@@ -798,8 +741,7 @@ public class ZPlayer extends RelativeLayout {
     }
 
     public boolean onBackPressed() {
-        if (!fullScreenOnly
-                && getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+        if (!fullScreenOnly && getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             return true;
         }
@@ -813,12 +755,9 @@ public class ZPlayer extends RelativeLayout {
      * @param btnText    错误按钮提示
      */
     private void showStatus(String statusText, String btnText) {
-        $.id(R.id.view_jky_player_tip_control)
-         .visible();
-        $.id(R.id.view_jky_player_tip_text)
-         .text(statusText);
-        $.id(R.id.view_jky_player_tv_continue)
-         .text(btnText);
+        $.id(R.id.view_jky_player_tip_control).visible();
+        $.id(R.id.view_jky_player_tip_text).text(statusText);
+        $.id(R.id.view_jky_player_tv_continue).text(btnText);
         isPrepare = false;// 设置点击不能出现控制栏
     }
 
@@ -850,15 +789,11 @@ public class ZPlayer extends RelativeLayout {
         if (videoView != null) {
             release();
         }
-        if (isNetListener
-                && (NetUtils.getNetworkType(activity) == 2 || NetUtils
-                .getNetworkType(activity) == 4)) {// 手机网络的情况下
-            $.id(R.id.view_jky_player_tip_control)
-             .visible();
+        if (isNetListener && (NetUtils.getNetworkType(activity) == 2 || NetUtils.getNetworkType(activity) == 4)) {// 手机网络的情况下
+            $.id(R.id.view_jky_player_tip_control).visible();
         } else {
             if (playerSupport) {
-                $.id(R.id.app_video_loading)
-                 .visible();
+                $.id(R.id.app_video_loading).visible();
                 videoView.setVideoPath(url);
                 if (isLive) {
                     videoView.seekTo(0);
@@ -889,26 +824,19 @@ public class ZPlayer extends RelativeLayout {
         int seconds = totalSeconds % 60;
         int minutes = (totalSeconds / 60) % 60;
         int hours = totalSeconds / 3600;
-        return hours > 0 ? String.format("%02d:%02d:%02d", hours, minutes,
-                seconds) : String.format("%02d:%02d", minutes, seconds);
+        return hours > 0 ? String.format("%02d:%02d:%02d", hours, minutes, seconds) : String.format("%02d:%02d", minutes, seconds);
     }
 
     private int getScreenOrientation() {
-        int rotation = activity.getWindowManager()
-                               .getDefaultDisplay()
-                               .getRotation();
+        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
         DisplayMetrics dm = new DisplayMetrics();
-        activity.getWindowManager()
-                .getDefaultDisplay()
-                .getMetrics(dm);
+        activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
         int orientation;
         // if the device's natural orientation is portrait:
-        if ((rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180)
-                && height > width
-                || (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270)
-                && width > height) {
+        if ((rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) && height > width || (rotation == Surface.ROTATION_90 || rotation == Surface
+                .ROTATION_270) && width > height) {
             switch (rotation) {
                 case Surface.ROTATION_0:
                     orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
@@ -976,19 +904,11 @@ public class ZPlayer extends RelativeLayout {
             s = "off";
         }
         // 显示
-        $.id(R.id.app_video_volume_icon)
-         .image(
-                 i == 0 ? R.drawable.superplayer_ic_volume_off_white_36dp
-                         : R.drawable.superplayer_ic_volume_up_white_36dp);
-        $.id(R.id.app_video_brightness_box)
-         .gone();
-        $.id(R.id.app_video_volume_box)
-         .visible();
-        $.id(R.id.app_video_volume_box)
-         .visible();
-        $.id(R.id.app_video_volume)
-         .text(s)
-         .visible();
+        $.id(R.id.app_video_volume_icon).image(i == 0 ? R.drawable.superplayer_ic_volume_off_white_36dp : R.drawable.superplayer_ic_volume_up_white_36dp);
+        $.id(R.id.app_video_brightness_box).gone();
+        $.id(R.id.app_video_volume_box).visible();
+        $.id(R.id.app_video_volume_box).visible();
+        $.id(R.id.app_video_volume).text(s).visible();
     }
 
     private void onProgressSlide(float percent) {
@@ -1006,16 +926,11 @@ public class ZPlayer extends RelativeLayout {
         }
         int showDelta = (int) delta / 1000;
         if (showDelta != 0) {
-            $.id(R.id.app_video_fastForward_box)
-             .visible();
+            $.id(R.id.app_video_fastForward_box).visible();
             String text = showDelta > 0 ? ("+" + showDelta) : "" + showDelta;
-            $.id(R.id.app_video_fastForward)
-             .text(text + "s");
-            $.id(R.id.app_video_fastForward_target)
-             .text(
-                     generateTime(newPosition) + "/");
-            $.id(R.id.app_video_fastForward_all)
-             .text(generateTime(duration));
+            $.id(R.id.app_video_fastForward).text(text + "s");
+            $.id(R.id.app_video_fastForward_target).text(generateTime(newPosition) + "/");
+            $.id(R.id.app_video_fastForward_all).text(generateTime(duration));
         }
     }
 
@@ -1024,32 +939,24 @@ public class ZPlayer extends RelativeLayout {
      */
     private void onBrightnessSlide(float percent) {
         if (brightness < 0) {
-            brightness = activity.getWindow()
-                                 .getAttributes().screenBrightness;
+            brightness = activity.getWindow().getAttributes().screenBrightness;
             if (brightness <= 0.00f) {
                 brightness = 0.50f;
             } else if (brightness < 0.01f) {
                 brightness = 0.01f;
             }
         }
-        Log.d(this.getClass()
-                  .getSimpleName(), "brightness:" + brightness
-                + ",percent:" + percent);
-        $.id(R.id.app_video_brightness_box)
-         .visible();
-        WindowManager.LayoutParams lpa = activity.getWindow()
-                                                 .getAttributes();
+        Log.d(this.getClass().getSimpleName(), "brightness:" + brightness + ",percent:" + percent);
+        $.id(R.id.app_video_brightness_box).visible();
+        WindowManager.LayoutParams lpa = activity.getWindow().getAttributes();
         lpa.screenBrightness = brightness + percent;
         if (lpa.screenBrightness > 1.0f) {
             lpa.screenBrightness = 1.0f;
         } else if (lpa.screenBrightness < 0.01f) {
             lpa.screenBrightness = 0.01f;
         }
-        $.id(R.id.app_video_brightness)
-         .text(
-                 ((int) (lpa.screenBrightness * 100)) + "%");
-        activity.getWindow()
-                .setAttributes(lpa);
+        $.id(R.id.app_video_brightness).text(((int) (lpa.screenBrightness * 100)) + "%");
+        activity.getWindow().setAttributes(lpa);
 
     }
 
@@ -1070,10 +977,8 @@ public class ZPlayer extends RelativeLayout {
         }
 
         this.duration = duration;
-        $.id(R.id.app_video_currentTime)
-         .text(generateTime(position));
-        $.id(R.id.app_video_endTime)
-         .text(generateTime(this.duration));
+        $.id(R.id.app_video_currentTime).text(generateTime(position));
+        $.id(R.id.app_video_endTime).text(generateTime(this.duration));
         return position;
     }
 
@@ -1081,11 +986,9 @@ public class ZPlayer extends RelativeLayout {
         if ((force || isShowing) && !isAlwaysShowControl) {
             handler.removeMessages(MESSAGE_SHOW_PROGRESS);
             showBottomControl(false);
-            $.id(R.id.view_jky_player_center_control)
-             .gone();
+            $.id(R.id.view_jky_player_center_control).gone();
             showTopControl(false);
-            $.id(R.id.view_jky_player_fullscreen)
-             .invisible();
+            $.id(R.id.view_jky_player_fullscreen).invisible();
             isShowing = false;
         }
     }
@@ -1095,30 +998,22 @@ public class ZPlayer extends RelativeLayout {
      */
     private void updateFullScreenButton() {
         if (getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {// 全屏幕
-            $.id(R.id.view_jky_player_fullscreen)
-             .image(R.drawable.superplayer_ic_not_fullscreen);
+            $.id(R.id.view_jky_player_fullscreen).image(R.drawable.superplayer_ic_not_fullscreen);
 
-            $.id(R.id.view_jky_player_iv_share)
-             .gone();
+            $.id(R.id.view_jky_player_iv_share).gone();
             if (onClickSetting != null) {
-                $.id(R.id.view_jky_play_iv_setting)
-                 .visible();
+                $.id(R.id.view_jky_play_iv_setting).visible();
             } else {
-                $.id(R.id.view_jky_play_iv_setting)
-                 .gone();
+                $.id(R.id.view_jky_play_iv_setting).gone();
             }
         } else {
-            $.id(R.id.view_jky_player_fullscreen)
-             .image(R.drawable.superplayer_ic_enlarge);
+            $.id(R.id.view_jky_player_fullscreen).image(R.drawable.superplayer_ic_enlarge);
             if (onClickShare != null) {
-                $.id(R.id.view_jky_player_iv_share)
-                 .visible();
+                $.id(R.id.view_jky_player_iv_share).visible();
             } else {
-                $.id(R.id.view_jky_player_iv_share)
-                 .gone();
+                $.id(R.id.view_jky_player_iv_share).gone();
             }
-            $.id(R.id.view_jky_play_iv_setting)
-             .gone();
+            $.id(R.id.view_jky_play_iv_setting).gone();
         }
     }
 
@@ -1147,8 +1042,7 @@ public class ZPlayer extends RelativeLayout {
      * 是否显示左上导航图标(一般有actionbar or appToolbar时需要隐藏)
      */
     public ZPlayer setShowNavIcon(boolean show) {
-        $.id(R.id.app_video_finish)
-         .visibility(show ? View.VISIBLE : View.GONE);
+        $.id(R.id.app_video_finish).visibility(show ? View.VISIBLE : View.GONE);
         return this;
     }
 
@@ -1158,6 +1052,19 @@ public class ZPlayer extends RelativeLayout {
 
     public void pause() {
         videoView.pause();
+    }
+
+    public void setLiveNumber(boolean showLiveNumber) {
+        isShowLiveNumber = showLiveNumber;
+        if (showLiveNumber && isLive) {
+            $.id(R.id.view_jky_player_tv_number).visibility(View.VISIBLE);
+        } else {
+            $.id(R.id.view_jky_player_tv_number).visibility(View.GONE);
+        }
+    }
+
+    public void setLiveNumber(String number) {
+        $.id(R.id.view_jky_player_tv_number).text(number);
     }
 
     class Query {
@@ -1223,8 +1130,7 @@ public class ZPlayer extends RelativeLayout {
         }
     }
 
-    public class PlayerGestureListener extends
-            GestureDetector.SimpleOnGestureListener {
+    public class PlayerGestureListener extends GestureDetector.SimpleOnGestureListener {
         private boolean firstTouch;
         private boolean volumeControl;
         private boolean toSeek;
@@ -1254,8 +1160,7 @@ public class ZPlayer extends RelativeLayout {
          * 滑动
          */
         @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2,
-                                float distanceX, float distanceY) {
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
             if (!isSupportGesture && portrait) {
                 return super.onScroll(e1, e2, distanceX, distanceY);
             }
@@ -1459,8 +1364,7 @@ public class ZPlayer extends RelativeLayout {
     }
 
     // 网络监听的回调
-    public ZPlayer setOnNetChangeListener(
-            OnNetChangeListener onNetChangeListener) {
+    public ZPlayer setOnNetChangeListener(OnNetChangeListener onNetChangeListener) {
         this.onNetChangeListener = onNetChangeListener;
         return this;
     }
@@ -1485,8 +1389,7 @@ public class ZPlayer extends RelativeLayout {
      */
     private void registerNetReceiver() {
         if (netChangeReceiver == null) {
-            IntentFilter filter = new IntentFilter(
-                    ConnectivityManager.CONNECTIVITY_ACTION);
+            IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
             netChangeReceiver = new NetChangeReceiver();
             activity.registerReceiver(netChangeReceiver, filter);
         }
@@ -1527,19 +1430,14 @@ public class ZPlayer extends RelativeLayout {
             }
             if (NetUtils.getNetworkType(activity) == 3) {// 网络是WIFI
                 onNetChangeListener.onWifi();
-            } else if (NetUtils.getNetworkType(activity) == 2
-                    || NetUtils.getNetworkType(activity) == 4) {// 网络不是手机网络或者是以太网
+            } else if (NetUtils.getNetworkType(activity) == 2 || NetUtils.getNetworkType(activity) == 4) {// 网络不是手机网络或者是以太网
                 // TODO 更新状态是暂停状态
                 statusChange(STATUS_PAUSE);
                 videoView.pause();
                 updatePausePlay();
-                $.id(R.id.app_video_loading)
-                 .gone();
+                $.id(R.id.app_video_loading).gone();
                 onNetChangeListener.onMobile();
-                showStatus(
-                        activity.getResources()
-                                .getString(
-                                        R.string.IjkPlayer_player_not_wifi), "继续");
+                showStatus(activity.getResources().getString(R.string.IjkPlayer_player_not_wifi), "继续");
             } else if (NetUtils.getNetworkType(activity) == 1) {// 网络链接断开
                 onPause();
                 onNetChangeListener.onDisConnect();

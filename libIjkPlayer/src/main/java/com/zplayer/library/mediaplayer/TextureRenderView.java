@@ -39,277 +39,261 @@ import tv.danmaku.ijk.media.player.ISurfaceTextureHolder;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TextureRenderView extends TextureView implements IRenderView {
-	private MeasureHelper mMeasureHelper;
+    private MeasureHelper mMeasureHelper;
 
-	public TextureRenderView(Context context) {
-		super(context);
-		initView(context);
-	}
+    public TextureRenderView(Context context) {
+        super(context);
+        initView(context);
+    }
 
-	public TextureRenderView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		initView(context);
-	}
+    public TextureRenderView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initView(context);
+    }
 
-	public TextureRenderView(Context context, AttributeSet attrs,
-			int defStyleAttr) {
-		super(context, attrs, defStyleAttr);
-		initView(context);
-	}
+    public TextureRenderView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        initView(context);
+    }
 
-	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public TextureRenderView(Context context, AttributeSet attrs,
-			int defStyleAttr, int defStyleRes) {
-		super(context, attrs, defStyleAttr, defStyleRes);
-		initView(context);
-	}
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public TextureRenderView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        initView(context);
+    }
 
-	private void initView(Context context) {
-		mMeasureHelper = new MeasureHelper(this);
-		mSurfaceCallback = new SurfaceCallback(this);
-		setSurfaceTextureListener(mSurfaceCallback);
-	}
+    private void initView(Context context) {
+        mMeasureHelper = new MeasureHelper(this);
+        mSurfaceCallback = new SurfaceCallback(this);
+        setSurfaceTextureListener(mSurfaceCallback);
+    }
 
-	@Override
-	public View getView() {
-		return this;
-	}
+    @Override
+    public View getView() {
+        return this;
+    }
 
-	@Override
-	public boolean shouldWaitForResize() {
-		return false;
-	}
+    @Override
+    public boolean shouldWaitForResize() {
+        return false;
+    }
 
-	// --------------------
-	// Layout & Measure
-	// --------------------
-	@Override
-	public void setVideoSize(int videoWidth, int videoHeight) {
-		if (videoWidth > 0 && videoHeight > 0) {
-			mMeasureHelper.setVideoSize(videoWidth, videoHeight);
-			requestLayout();
-		}
-	}
+    // --------------------
+    // Layout & Measure
+    // --------------------
+    @Override
+    public void setVideoSize(int videoWidth, int videoHeight) {
+        if (videoWidth > 0 && videoHeight > 0) {
+            mMeasureHelper.setVideoSize(videoWidth, videoHeight);
+            requestLayout();
+        }
+    }
 
-	@Override
-	public void setVideoSampleAspectRatio(int videoSarNum, int videoSarDen) {
-		if (videoSarNum > 0 && videoSarDen > 0) {
-			mMeasureHelper.setVideoSampleAspectRatio(videoSarNum, videoSarDen);
-			requestLayout();
-		}
-	}
+    @Override
+    public void setVideoSampleAspectRatio(int videoSarNum, int videoSarDen) {
+        if (videoSarNum > 0 && videoSarDen > 0) {
+            mMeasureHelper.setVideoSampleAspectRatio(videoSarNum, videoSarDen);
+            requestLayout();
+        }
+    }
 
-	@Override
-	public void setVideoRotation(int degree) {
-		mMeasureHelper.setVideoRotation(degree);
-		setRotation(degree);
-	}
+    @Override
+    public void setVideoRotation(int degree) {
+        mMeasureHelper.setVideoRotation(degree);
+        setRotation(degree);
+    }
 
-	@Override
-	public void setAspectRatio(int aspectRatio) {
-		mMeasureHelper.setAspectRatio(aspectRatio);
-		requestLayout();
-	}
+    @Override
+    public void setAspectRatio(int aspectRatio) {
+        mMeasureHelper.setAspectRatio(aspectRatio);
+        requestLayout();
+    }
 
-	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		mMeasureHelper.doMeasure(widthMeasureSpec, heightMeasureSpec);
-		setMeasuredDimension(mMeasureHelper.getMeasuredWidth(),
-				mMeasureHelper.getMeasuredHeight());
-	}
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        mMeasureHelper.doMeasure(widthMeasureSpec, heightMeasureSpec);
+        setMeasuredDimension(mMeasureHelper.getMeasuredWidth(), mMeasureHelper.getMeasuredHeight());
+    }
 
-	// --------------------
-	// TextureViewHolder
-	// --------------------
+    // --------------------
+    // TextureViewHolder
+    // --------------------
 
-	public IRenderView.ISurfaceHolder getSurfaceHolder() {
-		return new InternalSurfaceHolder(this, mSurfaceCallback.mSurfaceTexture);
-	}
+    public IRenderView.ISurfaceHolder getSurfaceHolder() {
+        return new InternalSurfaceHolder(this, mSurfaceCallback.mSurfaceTexture);
+    }
 
-	private static final class InternalSurfaceHolder implements
-			IRenderView.ISurfaceHolder {
-		private TextureRenderView mTextureView;
-		private SurfaceTexture mSurfaceTexture;
+    private static final class InternalSurfaceHolder implements IRenderView.ISurfaceHolder {
+        private TextureRenderView mTextureView;
+        private SurfaceTexture    mSurfaceTexture;
 
-		public InternalSurfaceHolder(@NonNull TextureRenderView textureView,
-				@Nullable SurfaceTexture surfaceTexture) {
-			mTextureView = textureView;
-			mSurfaceTexture = surfaceTexture;
-		}
+        public InternalSurfaceHolder(@NonNull TextureRenderView textureView, @Nullable SurfaceTexture surfaceTexture) {
+            mTextureView = textureView;
+            mSurfaceTexture = surfaceTexture;
+        }
 
-		@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-		public void bindToMediaPlayer(IMediaPlayer mp) {
-			if (mp == null)
-				return;
+        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+        public void bindToMediaPlayer(IMediaPlayer mp) {
+            if (mp == null)
+                return;
 
-			if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-					&& (mp instanceof ISurfaceTextureHolder)) {
-				ISurfaceTextureHolder textureHolder = (ISurfaceTextureHolder) mp;
-				mTextureView.mSurfaceCallback.setOwnSurfaceTecture(false);
+            if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) && (mp instanceof ISurfaceTextureHolder)) {
+                ISurfaceTextureHolder textureHolder = (ISurfaceTextureHolder) mp;
+                mTextureView.mSurfaceCallback.setOwnSurfaceTecture(false);
 
-				SurfaceTexture surfaceTexture = textureHolder
-						.getSurfaceTexture();
-				if (surfaceTexture != null) {
-					mTextureView.setSurfaceTexture(surfaceTexture);
-				} else {
-					textureHolder.setSurfaceTexture(mSurfaceTexture);
-				}
-			} else {
-				mp.setSurface(openSurface());
-			}
-		}
+                SurfaceTexture surfaceTexture = textureHolder.getSurfaceTexture();
+                if (surfaceTexture != null) {
+                    mTextureView.setSurfaceTexture(surfaceTexture);
+                } else {
+                    textureHolder.setSurfaceTexture(mSurfaceTexture);
+                }
+            } else {
+                mp.setSurface(openSurface());
+            }
+        }
 
-		@NonNull
-		@Override
-		public IRenderView getRenderView() {
-			return mTextureView;
-		}
+        @NonNull
+        @Override
+        public IRenderView getRenderView() {
+            return mTextureView;
+        }
 
-		@Nullable
-		@Override
-		public SurfaceHolder getSurfaceHolder() {
-			return null;
-		}
+        @Nullable
+        @Override
+        public SurfaceHolder getSurfaceHolder() {
+            return null;
+        }
 
-		@Nullable
-		@Override
-		public SurfaceTexture getSurfaceTexture() {
-			return mSurfaceTexture;
-		}
+        @Nullable
+        @Override
+        public SurfaceTexture getSurfaceTexture() {
+            return mSurfaceTexture;
+        }
 
-		@Nullable
-		@Override
-		public Surface openSurface() {
-			if (mSurfaceTexture == null)
-				return null;
-			return new Surface(mSurfaceTexture);
-		}
-	}
+        @Nullable
+        @Override
+        public Surface openSurface() {
+            if (mSurfaceTexture == null)
+                return null;
+            return new Surface(mSurfaceTexture);
+        }
+    }
 
-	// -------------------------
-	// SurfaceHolder.Callback
-	// -------------------------
+    // -------------------------
+    // SurfaceHolder.Callback
+    // -------------------------
 
-	@Override
-	public void addRenderCallback(IRenderCallback callback) {
-		mSurfaceCallback.addRenderCallback(callback);
-	}
+    @Override
+    public void addRenderCallback(IRenderCallback callback) {
+        mSurfaceCallback.addRenderCallback(callback);
+    }
 
-	@Override
-	public void removeRenderCallback(IRenderCallback callback) {
-		mSurfaceCallback.removeRenderCallback(callback);
-	}
+    @Override
+    public void removeRenderCallback(IRenderCallback callback) {
+        mSurfaceCallback.removeRenderCallback(callback);
+    }
 
-	private SurfaceCallback mSurfaceCallback;
+    private SurfaceCallback mSurfaceCallback;
 
-	private static final class SurfaceCallback implements
-			SurfaceTextureListener {
-		private SurfaceTexture mSurfaceTexture;
-		private boolean mIsFormatChanged;
-		private int mWidth;
-		private int mHeight;
+    private static final class SurfaceCallback implements SurfaceTextureListener {
+        private SurfaceTexture mSurfaceTexture;
+        private boolean        mIsFormatChanged;
+        private int            mWidth;
+        private int            mHeight;
 
-		private boolean mOwnSurfaceTecture = true;
+        private boolean mOwnSurfaceTecture = true;
 
-		private WeakReference<TextureRenderView> mWeakRenderView;
-		private Map<IRenderCallback, Object> mRenderCallbackMap = new ConcurrentHashMap<IRenderCallback, Object>();
+        private WeakReference<TextureRenderView> mWeakRenderView;
+        private Map<IRenderCallback, Object> mRenderCallbackMap = new ConcurrentHashMap<IRenderCallback, Object>();
 
-		public SurfaceCallback(@NonNull TextureRenderView renderView) {
-			mWeakRenderView = new WeakReference<TextureRenderView>(renderView);
-		}
+        public SurfaceCallback(@NonNull TextureRenderView renderView) {
+            mWeakRenderView = new WeakReference<TextureRenderView>(renderView);
+        }
 
-		public void setOwnSurfaceTecture(boolean ownSurfaceTecture) {
-			mOwnSurfaceTecture = ownSurfaceTecture;
-		}
+        public void setOwnSurfaceTecture(boolean ownSurfaceTecture) {
+            mOwnSurfaceTecture = ownSurfaceTecture;
+        }
 
-		public void addRenderCallback(@NonNull IRenderCallback callback) {
-			mRenderCallbackMap.put(callback, callback);
+        public void addRenderCallback(@NonNull IRenderCallback callback) {
+            mRenderCallbackMap.put(callback, callback);
 
-			ISurfaceHolder surfaceHolder = null;
-			if (mSurfaceTexture != null) {
-				if (surfaceHolder == null)
-					surfaceHolder = new InternalSurfaceHolder(
-							mWeakRenderView.get(), mSurfaceTexture);
-				callback.onSurfaceCreated(surfaceHolder, mWidth, mHeight);
-			}
+            ISurfaceHolder surfaceHolder = null;
+            if (mSurfaceTexture != null) {
+                if (surfaceHolder == null)
+                    surfaceHolder = new InternalSurfaceHolder(mWeakRenderView.get(), mSurfaceTexture);
+                callback.onSurfaceCreated(surfaceHolder, mWidth, mHeight);
+            }
 
-			if (mIsFormatChanged) {
-				if (surfaceHolder == null)
-					surfaceHolder = new InternalSurfaceHolder(
-							mWeakRenderView.get(), mSurfaceTexture);
-				callback.onSurfaceChanged(surfaceHolder, 0, mWidth, mHeight);
-			}
-		}
+            if (mIsFormatChanged) {
+                if (surfaceHolder == null)
+                    surfaceHolder = new InternalSurfaceHolder(mWeakRenderView.get(), mSurfaceTexture);
+                callback.onSurfaceChanged(surfaceHolder, 0, mWidth, mHeight);
+            }
+        }
 
-		public void removeRenderCallback(@NonNull IRenderCallback callback) {
-			mRenderCallbackMap.remove(callback);
-		}
+        public void removeRenderCallback(@NonNull IRenderCallback callback) {
+            mRenderCallbackMap.remove(callback);
+        }
 
-		@Override
-		public void onSurfaceTextureAvailable(SurfaceTexture surface,
-				int width, int height) {
-			mSurfaceTexture = surface;
-			mIsFormatChanged = false;
-			mWidth = 0;
-			mHeight = 0;
+        @Override
+        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+            mSurfaceTexture = surface;
+            mIsFormatChanged = false;
+            mWidth = 0;
+            mHeight = 0;
 
-			ISurfaceHolder surfaceHolder = new InternalSurfaceHolder(
-					mWeakRenderView.get(), surface);
-			for (IRenderCallback renderCallback : mRenderCallbackMap.keySet()) {
-				renderCallback.onSurfaceCreated(surfaceHolder, 0, 0);
-			}
-		}
+            ISurfaceHolder surfaceHolder = new InternalSurfaceHolder(mWeakRenderView.get(), surface);
+            for (IRenderCallback renderCallback : mRenderCallbackMap.keySet()) {
+                renderCallback.onSurfaceCreated(surfaceHolder, 0, 0);
+            }
+        }
 
-		@Override
-		public void onSurfaceTextureSizeChanged(SurfaceTexture surface,
-				int width, int height) {
-			mSurfaceTexture = surface;
-			mIsFormatChanged = true;
-			mWidth = width;
-			mHeight = height;
+        @Override
+        public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+            mSurfaceTexture = surface;
+            mIsFormatChanged = true;
+            mWidth = width;
+            mHeight = height;
 
-			ISurfaceHolder surfaceHolder = new InternalSurfaceHolder(
-					mWeakRenderView.get(), surface);
-			for (IRenderCallback renderCallback : mRenderCallbackMap.keySet()) {
-				renderCallback
-						.onSurfaceChanged(surfaceHolder, 0, width, height);
-			}
-		}
+            ISurfaceHolder surfaceHolder = new InternalSurfaceHolder(mWeakRenderView.get(), surface);
+            for (IRenderCallback renderCallback : mRenderCallbackMap.keySet()) {
+                renderCallback.onSurfaceChanged(surfaceHolder, 0, width, height);
+            }
+        }
 
-		@Override
-		public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-			mSurfaceTexture = surface;
-			mIsFormatChanged = false;
-			mWidth = 0;
-			mHeight = 0;
+        @Override
+        public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+            mSurfaceTexture = surface;
+            mIsFormatChanged = false;
+            mWidth = 0;
+            mHeight = 0;
 
-			ISurfaceHolder surfaceHolder = new InternalSurfaceHolder(
-					mWeakRenderView.get(), surface);
-			for (IRenderCallback renderCallback : mRenderCallbackMap.keySet()) {
-				renderCallback.onSurfaceDestroyed(surfaceHolder);
-			}
+            ISurfaceHolder surfaceHolder = new InternalSurfaceHolder(mWeakRenderView.get(), surface);
+            for (IRenderCallback renderCallback : mRenderCallbackMap.keySet()) {
+                renderCallback.onSurfaceDestroyed(surfaceHolder);
+            }
 
-			return mOwnSurfaceTecture;
-		}
+            return mOwnSurfaceTecture;
+        }
 
-		@Override
-		public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-		}
-	}
+        @Override
+        public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+        }
+    }
 
-	// --------------------
-	// Accessibility
-	// --------------------
+    // --------------------
+    // Accessibility
+    // --------------------
 
-	@Override
-	public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
-		super.onInitializeAccessibilityEvent(event);
-		event.setClassName(TextureRenderView.class.getName());
-	}
+    @Override
+    public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
+        super.onInitializeAccessibilityEvent(event);
+        event.setClassName(TextureRenderView.class.getName());
+    }
 
-	@Override
-	public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
-		super.onInitializeAccessibilityNodeInfo(info);
-		info.setClassName(TextureRenderView.class.getName());
-	}
+    @Override
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        info.setClassName(TextureRenderView.class.getName());
+    }
 }

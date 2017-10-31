@@ -30,8 +30,8 @@ public class VideoPlayActivity extends BaseVideoPlayActivity implements View.OnC
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.id_tool_bar);
         setSupportActionBar(toolbar);
-        
-        
+
+
         isLive = getIntent().getBooleanExtra("isLive", false);
         url = getIntent().getStringExtra("url");
 
@@ -54,27 +54,31 @@ public class VideoPlayActivity extends BaseVideoPlayActivity implements View.OnC
         player.setLive(isLive)//设置该地址是直播的地址
               .setNetChangeListener(true)//设置监听手机网络的变化,这个参数是内部是否处理网络监听，和setOnNetChangeListener没有关系
               .setOnNetChangeListener(this)//实现网络变化的回调
-              .setScaleType(ZPlayer.SCALETYPE_FITXY)
+              .setScaleType(ZPlayer.SCALETYPE_FITXY)//图片缩放方式
               .setPlayerWH(0, player.getMeasuredHeight())//设置竖屏的时候屏幕的高度，如果不设置会切换后按照16:9的高度重置
               .setAlwaysShowControl()  //设置则一直显示
+              //准备好视频回调
               .onPrepared(new ZPlayer.OnPreparedListener() {
                   @Override
                   public void onPrepared() {
                       //TODO 监听视频是否已经准备完成开始播放。（可以在这里处理视频封面的显示跟隐藏）
                   }
               })
+              //播放完成回调
               .onComplete(new Runnable() {
                   @Override
                   public void run() {
                       //TODO 监听视频是否已经播放完成了。（可以在这里处理视频播放完成进行的操作）
                   }
               })
+              //视频信息回调
               .onInfo(new ZPlayer.OnInfoListener() {
                   @Override
                   public void onInfo(int what, int extra) {
                       //TODO 监听视频的相关信息。
                   }
               })
+              //播放出错回调
               .onError(new ZPlayer.OnErrorListener() {
                   @Override
                   public void onError(int what, int extra) {
@@ -93,8 +97,7 @@ public class VideoPlayActivity extends BaseVideoPlayActivity implements View.OnC
             }
         } else if (view.getId() == R.id.tv_play_location) {
             if (isLive) {
-                Toast.makeText(this, "直播不支持指定播放", Toast.LENGTH_SHORT)
-                     .show();
+                Toast.makeText(this, "直播不支持指定播放", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (player != null) {
@@ -116,25 +119,21 @@ public class VideoPlayActivity extends BaseVideoPlayActivity implements View.OnC
      */
     @Override
     public void onWifi() {
-        Toast.makeText(this, "当前网络环境是WIFI", Toast.LENGTH_SHORT)
-             .show();
+        Toast.makeText(this, "当前网络环境是WIFI", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onMobile() {
-        Toast.makeText(this, "当前网络环境是手机网络", Toast.LENGTH_SHORT)
-             .show();
+        Toast.makeText(this, "当前网络环境是手机网络", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDisConnect() {
-        Toast.makeText(this, "网络链接断开", Toast.LENGTH_SHORT)
-             .show();
+        Toast.makeText(this, "网络链接断开", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onNoAvailable() {
-        Toast.makeText(this, "无网络链接", Toast.LENGTH_SHORT)
-             .show();
+        Toast.makeText(this, "无网络链接", Toast.LENGTH_SHORT).show();
     }
 }

@@ -20,22 +20,22 @@ import android.view.View;
 import android.widget.MediaController;
 
 public interface IMediaController {
-	void hide();
+    void hide();
 
-	boolean isShowing();
+    boolean isShowing();
 
-	void setAnchorView(View view);
+    void setAnchorView(View view);
 
-	void setEnabled(boolean enabled);
+    void setEnabled(boolean enabled);
 
-	void setMediaPlayer(MediaController.MediaPlayerControl player);
+    void setMediaPlayer(MediaController.MediaPlayerControl player);
 
-	void show(int timeout);
+    void show(int timeout);
 
-	void show();
+    void show();
 
-	// ----------
-	// Extends
-	// ----------
-	void showOnce(View view);
+    // ----------
+    // Extends
+    // ----------
+    void showOnce(View view);
 }

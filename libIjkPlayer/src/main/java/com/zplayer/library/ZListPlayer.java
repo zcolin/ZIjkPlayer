@@ -53,8 +53,7 @@ public class ZListPlayer extends RelativeLayout {
 
     private void init() {
         player = new ZPlayer(context);
-        LayoutInflater.from(context)
-                      .inflate(R.layout.view_super_listplayer, this);
+        LayoutInflater.from(context).inflate(R.layout.view_super_listplayer, this);
         flRecyclerViewParent = (FrameLayout) findViewById(R.id.fl_recycleview_superlistvideo);
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_superlistvideo);
         rlFullScreenLay = (RelativeLayout) findViewById(R.id.rl_full_screen);
@@ -67,7 +66,7 @@ public class ZListPlayer extends RelativeLayout {
             public void run() {
                 if (player.isFullScreen()) {
                     player.toggleFullScreen();
-                }else{
+                } else {
                     showView(R.id.IjkPlayer_rl_player_control);
                 }
             }
@@ -145,8 +144,7 @@ public class ZListPlayer extends RelativeLayout {
                 rlFullScreenLay.setVisibility(View.GONE);
                 rlFullScreenLay.removeAllViews();
                 recyclerView.setVisibility(View.VISIBLE);
-                if (postion <= layoutManager.findLastVisibleItemPosition()
-                        && postion >= layoutManager.findFirstVisibleItemPosition()) {
+                if (postion <= layoutManager.findLastVisibleItemPosition() && postion >= layoutManager.findFirstVisibleItemPosition()) {
                     View view = recyclerView.findViewHolderForAdapterPosition(postion).itemView;
                     FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.IjkPlayer_fl_super_video);
                     frameLayout.removeAllViews();
@@ -156,7 +154,7 @@ public class ZListPlayer extends RelativeLayout {
                     }
                     frameLayout.addView(player);
                 }
-//                rlFullScreenLay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                //                rlFullScreenLay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
             } else {
                 ViewGroup viewGroup = (ViewGroup) player.getParent();
                 if (viewGroup == null)
@@ -164,7 +162,7 @@ public class ZListPlayer extends RelativeLayout {
                 viewGroup.removeAllViews();
                 rlFullScreenLay.addView(player);
                 rlFullScreenLay.setVisibility(View.VISIBLE);
-//                rlFullScreenLay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+                //                rlFullScreenLay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
             }
         } else {
             rlFullScreenLay.setVisibility(View.GONE);
@@ -219,7 +217,7 @@ public class ZListPlayer extends RelativeLayout {
     /**
      * 使用下拉刷新控件时需要调用
      */
-    public void onRefresh(){
+    public void onRefresh() {
         if (player != null) {
             player.stop();
             player.release();
@@ -263,7 +261,7 @@ public class ZListPlayer extends RelativeLayout {
             if (controlview == null) {
                 return;
             }
-            
+
             controlview.setVisibility(View.VISIBLE);
             if (index == postion) {
                 FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.IjkPlayer_fl_super_video);

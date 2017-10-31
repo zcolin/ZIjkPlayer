@@ -26,7 +26,7 @@ public abstract class BaseVideoPlayActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(getContentViewId());
-        
+
         player = initPlayer();
     }
 
