@@ -1,4 +1,13 @@
 /*
+ * *********************************************************
+ *   author   colin
+ *   company  telchina
+ *   email    wanglin2046@126.com
+ *   date     18-1-9 下午2:12
+ * ********************************************************
+ */
+
+/*
  * Copyright (C) 2015 Zhang Rui <bbcallen@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,7 +45,7 @@ public final class MeasureHelper {
     private int mCurrentAspectRatio = IRenderView.AR_ASPECT_FIT_PARENT;
 
     public MeasureHelper(View view) {
-        mWeakView = new WeakReference<View>(view);
+        mWeakView = new WeakReference<>(view);
     }
 
     public View getView() {

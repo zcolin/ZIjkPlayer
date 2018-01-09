@@ -1,15 +1,14 @@
 /*
- * **********************************************************
- *   author   colin
- *   company  fosung
- *   email    wanglin2046@126.com
- *   date     16-10-19 下午3:41
  * *********************************************************
+ *   author   colin
+ *   company  telchina
+ *   email    wanglin2046@126.com
+ *   date     18-1-9 下午2:12
+ * ********************************************************
  */
 package com.zplayer.demo.adapter;
 
 import android.app.Activity;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -57,12 +56,9 @@ public class SuperVideoAdapter extends BaseRecyclerAdapter<VideoListBean> {
         }
 
         //点击回调 播放视频
-        ivPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (playClick != null)
-                    playClick.onPlayClick(position, data, rlayPlayerControl);
-            }
+        ivPlay.setOnClickListener(v -> {
+            if (playClick != null)
+                playClick.onPlayClick(position, data, rlayPlayerControl);
         });
     }
 

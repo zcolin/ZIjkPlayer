@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <item name="IjkPlayer_fl_super_video" type="id"/>
     <item name="IjkPlayer_rl_player_control" type="id"/>
 </resources>

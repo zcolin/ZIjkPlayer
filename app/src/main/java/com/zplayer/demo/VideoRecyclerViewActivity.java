@@ -1,10 +1,10 @@
 /*
- * **********************************************************
- *   author   colin
- *   company  fosung
- *   email    wanglin2046@126.com
- *   date     16-10-19 下午1:05
  * *********************************************************
+ *   author   colin
+ *   company  telchina
+ *   email    wanglin2046@126.com
+ *   date     18-1-9 下午2:12
+ * ********************************************************
  */
 package com.zplayer.demo;
 
@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
-import android.widget.RelativeLayout;
 
 import com.zcolin.gui.zrecyclerview.ZRecyclerView;
 import com.zplayer.demo.adapter.SuperVideoAdapter;
@@ -36,7 +35,7 @@ public class VideoRecyclerViewActivity extends BaseVideoRecycleViewActivity {
         mActivity = this;
         super.onCreate(savedInstanceState);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.id_tool_bar);
+        Toolbar toolbar = findViewById(R.id.id_tool_bar);
         setSupportActionBar(toolbar);
 
         zRecyclerView.refreshWithPull();
@@ -49,13 +48,9 @@ public class VideoRecyclerViewActivity extends BaseVideoRecycleViewActivity {
 
     @Override
     protected ZListPlayer initPlayer() {
-        ZListPlayer player = (ZListPlayer) findViewById(R.id.superlistplayer);
-        player.getPlayer()
-              .setNetChangeListener(true)//设置监听手机网络的变化,这个参数是内部是否处理网络监听，和setOnNetChangeListener没有关系
-              .setShowTopControl(false)
-              .setShowCenterControl(true)
-              .setSupportGesture(false)
-              .setScaleType(ZPlayer.SCALETYPE_FILLPARENT);
+        ZListPlayer player = findViewById(R.id.superlistplayer);
+        player.getPlayer().setNetChangeListener(true)//设置监听手机网络的变化,这个参数是内部是否处理网络监听，和setOnNetChangeListener没有关系
+              .setShowTopControl(false).setShowCenterControl(true).setSupportGesture(false).setScaleType(ZPlayer.SCALETYPE_FILLPARENT);
 
         //如果设置则使用指定的RecyclerView，否则使用默认的RecyclerView
         player.setRecyclerViewLayout(initPullRecyclerView());
@@ -90,14 +85,11 @@ public class VideoRecyclerViewActivity extends BaseVideoRecycleViewActivity {
      * 制造假延时模拟服务器请求效果， 获取数据，添加到适配器
      */
     public void getDataFromShopList(final Activity activity, final int page) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                addDataToRecyclerView(setList(page), page == 1);
-                zRecyclerView.setPullLoadMoreCompleted();
-                if (page == 3) {
-                    zRecyclerView.setNoMore(true);
-                }
+        new Handler().postDelayed(() -> {
+            addDataToRecyclerView(setList(page), page == 1);
+            zRecyclerView.setPullLoadMoreCompleted();
+            if (page == 3) {
+                zRecyclerView.setNoMore(true);
             }
         }, 1500);
     }
@@ -110,12 +102,7 @@ public class VideoRecyclerViewActivity extends BaseVideoRecycleViewActivity {
             mRecyclerViewAdapter = new SuperVideoAdapter(mActivity);
             mRecyclerViewAdapter.addDatas(list);
             zRecyclerView.setAdapter(mRecyclerViewAdapter);
-            mRecyclerViewAdapter.setPlayClick(new SuperVideoAdapter.PlayClickListener() {
-                @Override
-                public void onPlayClick(int position, VideoListBean data, RelativeLayout rlPlayControl) {
-                    player.onPlayClick(position, data.getVideoUrl(), rlPlayControl);
-                }
-            });
+            mRecyclerViewAdapter.setPlayClick((position, data, rlPlayControl) -> player.onPlayClick(position, data.getVideoUrl(), rlPlayControl));
         } else {
             if (isClear) {
                 mRecyclerViewAdapter.setDatas(list);

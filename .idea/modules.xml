@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/IjkPlayerLib.iml" filepath="$PROJECT_DIR$/IjkPlayerLib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ZIjkPlayer.iml" filepath="$PROJECT_DIR$/ZIjkPlayer.iml" />
+      <module fileurl="file://E:\workspace_as\zcolin_lib\ZIjkPlayer\IjkPlayerLib.iml" filepath="E:\workspace_as\zcolin_lib\ZIjkPlayer\IjkPlayerLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ZIjkPlayer.iml" filepath="$PROJECT_DIR$/.idea/ZIjkPlayer.iml" />
+      <module fileurl="file://E:\workspace_as\zcolin_lib\ZIjkPlayer\ZIjkPlayer.iml" filepath="E:\workspace_as\zcolin_lib\ZIjkPlayer\ZIjkPlayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://E:\workspace_as\zcolin_lib\ZIjkPlayer\app\app.iml" filepath="E:\workspace_as\zcolin_lib\ZIjkPlayer\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/libIjkPlayer/libIjkPlayer.iml" filepath="$PROJECT_DIR$/libIjkPlayer/libIjkPlayer.iml" />
+      <module fileurl="file://E:\workspace_as\zcolin_lib\ZIjkPlayer\libIjkPlayer\libIjkPlayer.iml" filepath="E:\workspace_as\zcolin_lib\ZIjkPlayer\libIjkPlayer\libIjkPlayer.iml" />
     </modules>
   </component>
 </project>

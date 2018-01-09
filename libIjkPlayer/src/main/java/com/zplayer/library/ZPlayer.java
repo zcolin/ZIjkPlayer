@@ -1,3 +1,12 @@
+/*
+ * *********************************************************
+ *   author   colin
+ *   company  telchina
+ *   email    wanglin2046@126.com
+ *   date     18-1-9 下午2:12
+ * ********************************************************
+ */
+
 package com.zplayer.library;
 
 import android.app.Activity;
@@ -191,10 +200,7 @@ public class ZPlayer extends RelativeLayout {
     private long  newPosition      = -1;
     private long  defaultRetryTime = 5000;
     private OnErrorListener onErrorListener;
-    private Runnable oncomplete = new Runnable() {
-        @Override
-        public void run() {
-        }
+    private Runnable oncomplete = () -> {
     };
     private OnInfoListener     onInfoListener;
     private OnPreparedListener onPreparedListener;
@@ -409,70 +415,53 @@ public class ZPlayer extends RelativeLayout {
 
         $ = new Query(activity);
         contentView = View.inflate(context, R.layout.view_super_player, this);
-        videoView = (IjkVideoView) contentView.findViewById(R.id.video_view);
-        videoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(IMediaPlayer mp) {
-                statusChange(STATUS_COMPLETED);
-                oncomplete.run();
-            }
+        videoView = contentView.findViewById(R.id.video_view);
+        videoView.setOnCompletionListener(mp -> {
+            statusChange(STATUS_COMPLETED);
+            oncomplete.run();
         });
-        videoView.setOnErrorListener(new IMediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(IMediaPlayer mp, int what, int extra) {
-                statusChange(STATUS_ERROR);
-                if (onErrorListener != null) {
-                    onErrorListener.onError(what, extra);
-                }
-                return true;
+        videoView.setOnErrorListener((mp, what, extra) -> {
+            statusChange(STATUS_ERROR);
+            if (onErrorListener != null) {
+                onErrorListener.onError(what, extra);
             }
+            return true;
         });
-        videoView.setOnInfoListener(new IMediaPlayer.OnInfoListener() {
-            @Override
-            public boolean onInfo(IMediaPlayer mp, int what, int extra) {
-                switch (what) {
-                    case IMediaPlayer.MEDIA_INFO_BUFFERING_START:
-                        statusChange(STATUS_LOADING);
-                        break;
-                    case IMediaPlayer.MEDIA_INFO_BUFFERING_END:
-                        statusChange(STATUS_PLAYING);
-                        break;
-                    case IMediaPlayer.MEDIA_INFO_NETWORK_BANDWIDTH:
-                        // 显示 下载速度
-                        // Toast.makeText(activity,"download rate:" +
-                        // extra,Toast.LENGTH_SHORT).show();
-                        break;
-                    case IMediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START:
-                        statusChange(STATUS_PLAYING);
-                        break;
-                }
-                if (onInfoListener != null) {
-                    onInfoListener.onInfo(what, extra);
-                }
-                return false;
+        videoView.setOnInfoListener((mp, what, extra) -> {
+            switch (what) {
+                case IMediaPlayer.MEDIA_INFO_BUFFERING_START:
+                    statusChange(STATUS_LOADING);
+                    break;
+                case IMediaPlayer.MEDIA_INFO_BUFFERING_END:
+                    statusChange(STATUS_PLAYING);
+                    break;
+                case IMediaPlayer.MEDIA_INFO_NETWORK_BANDWIDTH:
+                    // 显示 下载速度
+                    // Toast.makeText(activity,"download rate:" +
+                    // extra,Toast.LENGTH_SHORT).show();
+                    break;
+                case IMediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START:
+                    statusChange(STATUS_PLAYING);
+                    break;
             }
+            if (onInfoListener != null) {
+                onInfoListener.onInfo(what, extra);
+            }
+            return false;
         });
-        videoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
+        videoView.setOnPreparedListener(mp -> {
+            isPrepare = true;
 
-            @Override
-            public void onPrepared(IMediaPlayer mp) {
-                isPrepare = true;
-
-                new Handler().postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        hide(false);
-                        show(defaultTimeout);
-                    }
-                }, 500);
-                if (onPreparedListener != null) {
-                    onPreparedListener.onPrepared();
-                }
+            new Handler().postDelayed(() -> {
+                hide(false);
+                show(defaultTimeout);
+            }, 500);
+            if (onPreparedListener != null) {
+                onPreparedListener.onPrepared();
             }
         });
 
-        seekBar = (SeekBar) contentView.findViewById(R.id.app_video_seekBar);
+        seekBar = contentView.findViewById(R.id.app_video_seekBar);
         seekBar.setMax(1000);
         seekBar.setOnSeekBarChangeListener(mSeekListener);
         $.id(R.id.app_video_play).clicked(onClickListener);
@@ -489,21 +478,18 @@ public class ZPlayer extends RelativeLayout {
 
         View liveBox = contentView.findViewById(R.id.app_video_box);
         liveBox.setClickable(true);
-        liveBox.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (gestureDetector.onTouchEvent(motionEvent))
-                    return true;
+        liveBox.setOnTouchListener((view, motionEvent) -> {
+            if (gestureDetector.onTouchEvent(motionEvent))
+                return true;
 
-                // 处理手势结束
-                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-                    case MotionEvent.ACTION_UP:
-                        endGesture();
-                        break;
-                }
-
-                return false;
+            // 处理手势结束
+            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_UP:
+                    endGesture();
+                    break;
             }
+
+            return false;
         });
 
         /**
@@ -598,34 +584,31 @@ public class ZPlayer extends RelativeLayout {
 
     private void doOnConfigurationChanged(final boolean portrait) {
         if (videoView != null && !fullScreenOnly) {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    tryFullScreen(!portrait);
-                    if (portrait) {
-                        ViewGroup.LayoutParams layoutParams = getLayoutParams();
-                        activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                        if (initWidth != 0) {
-                            layoutParams.width = initWidth;
-                        }
-
-                        if (initHeight == 0) {
-                            layoutParams.height = ZPlayerUtils.getScreenWidth(activity) * 9 / 16;
-                        } else {
-                            layoutParams.height = initHeight;
-                        }
-                        setLayoutParams(layoutParams);
-                        requestLayout();
-                    } else {
-                        int heightPixels = ZPlayerUtils.getScreenHeight(activity);
-                        ViewGroup.LayoutParams layoutParams = getLayoutParams();
-                        layoutParams.height = heightPixels;
-                        setLayoutParams(layoutParams);
+            handler.post(() -> {
+                tryFullScreen(!portrait);
+                if (portrait) {
+                    ViewGroup.LayoutParams layoutParams = getLayoutParams();
+                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    if (initWidth != 0) {
+                        layoutParams.width = initWidth;
                     }
-                    updateFullScreenButton();
-                    hide(false);
-                    show(defaultTimeout);
+
+                    if (initHeight == 0) {
+                        layoutParams.height = ZPlayerUtils.getScreenWidth(activity) * 9 / 16;
+                    } else {
+                        layoutParams.height = initHeight;
+                    }
+                    setLayoutParams(layoutParams);
+                    requestLayout();
+                } else {
+                    int heightPixels = ZPlayerUtils.getScreenHeight(activity);
+                    ViewGroup.LayoutParams layoutParams = getLayoutParams();
+                    layoutParams.height = heightPixels;
+                    setLayoutParams(layoutParams);
                 }
+                updateFullScreenButton();
+                hide(false);
+                show(defaultTimeout);
             });
 
             if (isSupportOrientationEvent) {
@@ -813,7 +796,7 @@ public class ZPlayer extends RelativeLayout {
         if (videoView.isPlaying()) {
             getCurrentPosition();
         }
-        play(url, (int) currentPosition);
+        play(url, currentPosition);
     }
 
     /**
@@ -1213,7 +1196,7 @@ public class ZPlayer extends RelativeLayout {
      * 是否正在播放
      */
     public boolean isPlaying() {
-        return videoView != null ? videoView.isPlaying() : false;
+        return videoView != null && videoView.isPlaying();
     }
 
     /**

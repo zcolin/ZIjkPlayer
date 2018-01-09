@@ -1,10 +1,10 @@
 /*
- * **********************************************************
- *   author   colin
- *   company  fosung
- *   email    wanglin2046@126.com
- *   date     16-10-18 上午10:46
  * *********************************************************
+ *   author   colin
+ *   company  telchina
+ *   email    wanglin2046@126.com
+ *   date     18-1-9 下午2:12
+ * ********************************************************
  */
 package com.zplayer.library;
 
@@ -54,21 +54,18 @@ public class ZListPlayer extends RelativeLayout {
     private void init() {
         player = new ZPlayer(context);
         LayoutInflater.from(context).inflate(R.layout.view_super_listplayer, this);
-        flRecyclerViewParent = (FrameLayout) findViewById(R.id.fl_recycleview_superlistvideo);
-        recyclerView = (RecyclerView) findViewById(R.id.recycleview_superlistvideo);
-        rlFullScreenLay = (RelativeLayout) findViewById(R.id.rl_full_screen);
+        flRecyclerViewParent = findViewById(R.id.fl_recycleview_superlistvideo);
+        recyclerView = findViewById(R.id.recycleview_superlistvideo);
+        rlFullScreenLay = findViewById(R.id.rl_full_screen);
 
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        player.onComplete(new Runnable() {
-            @Override
-            public void run() {
-                if (player.isFullScreen()) {
-                    player.toggleFullScreen();
-                } else {
-                    showView(R.id.IjkPlayer_rl_player_control);
-                }
+        player.onComplete(() -> {
+            if (player.isFullScreen()) {
+                player.toggleFullScreen();
+            } else {
+                showView(R.id.IjkPlayer_rl_player_control);
             }
         });
 
@@ -146,7 +143,7 @@ public class ZListPlayer extends RelativeLayout {
                 recyclerView.setVisibility(View.VISIBLE);
                 if (postion <= layoutManager.findLastVisibleItemPosition() && postion >= layoutManager.findFirstVisibleItemPosition()) {
                     View view = recyclerView.findViewHolderForAdapterPosition(postion).itemView;
-                    FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.IjkPlayer_fl_super_video);
+                    FrameLayout frameLayout = view.findViewById(R.id.IjkPlayer_fl_super_video);
                     frameLayout.removeAllViews();
                     ViewGroup last = (ViewGroup) player.getParent();//找到videoitemview的父类，然后remove
                     if (last != null) {
@@ -190,7 +187,7 @@ public class ZListPlayer extends RelativeLayout {
         }
 
         View view = recyclerView.findViewHolderForAdapterPosition(position).itemView;
-        FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.IjkPlayer_fl_super_video);
+        FrameLayout frameLayout = view.findViewById(R.id.IjkPlayer_fl_super_video);
         frameLayout.removeAllViews();
         showView(R.id.IjkPlayer_rl_player_control);
         frameLayout.addView(player);
@@ -264,7 +261,7 @@ public class ZListPlayer extends RelativeLayout {
 
             controlview.setVisibility(View.VISIBLE);
             if (index == postion) {
-                FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.IjkPlayer_fl_super_video);
+                FrameLayout frameLayout = view.findViewById(R.id.IjkPlayer_fl_super_video);
                 frameLayout.removeAllViews();
                 if (player.isPlaying() || player.getVideoStatus() == IjkVideoView.STATE_PAUSED) {
                     controlview.setVisibility(View.GONE);

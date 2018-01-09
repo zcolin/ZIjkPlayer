@@ -1,3 +1,12 @@
+/*
+ * *********************************************************
+ *   author   colin
+ *   company  telchina
+ *   email    wanglin2046@126.com
+ *   date     18-1-9 下午2:12
+ * ********************************************************
+ */
+
 package com.zplayer.library.utils;
 
 import android.app.Activity;
@@ -16,9 +25,7 @@ public class ZPlayerUtils {
      */
     public static int getScreenWidth(Activity activity) {
         DisplayMetrics dm = new DisplayMetrics();
-        activity.getWindowManager()
-                .getDefaultDisplay()
-                .getMetrics(dm);
+        activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         return dm.widthPixels;
     }
 
@@ -29,9 +36,7 @@ public class ZPlayerUtils {
      */
     public static int getScreenHeight(Activity activity) {
         DisplayMetrics dm = new DisplayMetrics();
-        activity.getWindowManager()
-                .getDefaultDisplay()
-                .getMetrics(dm);
+        activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         return dm.heightPixels;
     }
 
@@ -55,9 +60,7 @@ public class ZPlayerUtils {
 
         if (statusBarHeight == 0) {
             Rect frame = new Rect();
-            context.getWindow()
-                   .getDecorView()
-                   .getWindowVisibleDisplayFrame(frame);
+            context.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
             statusBarHeight = frame.top;
         }
         return statusBarHeight;

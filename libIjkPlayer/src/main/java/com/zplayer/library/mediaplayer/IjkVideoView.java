@@ -1,4 +1,13 @@
 /*
+ * *********************************************************
+ *   author   colin
+ *   company  telchina
+ *   email    wanglin2046@126.com
+ *   date     18-1-9 下午2:12
+ * ********************************************************
+ */
+
+/*
  * Copyright (C) 2015 Zhang Rui <bbcallen@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +28,6 @@ package com.zplayer.library.mediaplayer;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -202,8 +210,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
             case RENDER_TEXTURE_VIEW: {
                 TextureRenderView renderView = new TextureRenderView(getContext());
                 if (mMediaPlayer != null) {
-                    renderView.getSurfaceHolder()
-                              .bindToMediaPlayer(mMediaPlayer);
+                    renderView.getSurfaceHolder().bindToMediaPlayer(mMediaPlayer);
                     renderView.setVideoSize(mMediaPlayer.getVideoWidth(), mMediaPlayer.getVideoHeight());
                     renderView.setVideoSampleAspectRatio(mMediaPlayer.getVideoSarNum(), mMediaPlayer.getVideoSarDen());
                     renderView.setAspectRatio(mCurrentAspectRatio);
@@ -369,13 +376,11 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
             mCurrentState = STATE_ERROR;
             mTargetState = STATE_ERROR;
             mErrorListener.onError(mMediaPlayer, MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
-            return;
         } catch (IllegalArgumentException ex) {
             Log.w(TAG, "Unable to open content: " + mUri, ex);
             mCurrentState = STATE_ERROR;
             mTargetState = STATE_ERROR;
             mErrorListener.onError(mMediaPlayer, MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
-            return;
         } finally {
             // REMOVED: mPendingSubtitleTracks.clear();
         }
@@ -534,21 +539,16 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                     message = "Invalid progressive playback";
                 }
 
-                new AlertDialog.Builder(getContext()).setMessage(message)
-                                                     .setPositiveButton("error", new DialogInterface.OnClickListener() {
-                                                         public void onClick(DialogInterface dialog, int whichButton) {
-										/*
-										 * If we get here, there is no onError
-										 * listener, so at least inform them
-										 * that the video is over.
-										 */
-                                                             if (mOnCompletionListener != null) {
-                                                                 mOnCompletionListener.onCompletion(mMediaPlayer);
-                                                             }
-                                                         }
-                                                     })
-                                                     .setCancelable(false)
-                                                     .show();
+                new AlertDialog.Builder(getContext()).setMessage(message).setPositiveButton("error", (dialog, whichButton) -> {
+                                    /*
+                                     * If we get here, there is no onError
+                                     * listener, so at least inform them
+                                     * that the video is over.
+                                     */
+                    if (mOnCompletionListener != null) {
+                        mOnCompletionListener.onCompletion(mMediaPlayer);
+                    }
+                }).setCancelable(false).show();
             }
             return true;
         }
@@ -705,8 +705,8 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         boolean isKeyCodeSupported = keyCode != KeyEvent.KEYCODE_BACK && keyCode != KeyEvent.KEYCODE_VOLUME_UP && keyCode != KeyEvent.KEYCODE_VOLUME_DOWN && 
-				keyCode != KeyEvent.KEYCODE_VOLUME_MUTE && keyCode != KeyEvent.KEYCODE_MENU && keyCode != KeyEvent.KEYCODE_CALL && keyCode != KeyEvent
-				.KEYCODE_ENDCALL;
+                keyCode != KeyEvent.KEYCODE_VOLUME_MUTE && keyCode != KeyEvent.KEYCODE_MENU && keyCode != KeyEvent.KEYCODE_CALL && keyCode != KeyEvent
+                .KEYCODE_ENDCALL;
         if (isInPlaybackState() && isKeyCodeSupported && mMediaController != null) {
             if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
                 if (mMediaPlayer.isPlaying()) {
@@ -850,7 +850,8 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     // Extend: Aspect Ratio
     // -------------------------
 
-    private static final int[] s_allAspectRatio         = {IRenderView.AR_ASPECT_FIT_PARENT, IRenderView.AR_ASPECT_FILL_PARENT, IRenderView.AR_ASPECT_WRAP_CONTENT, IRenderView.AR_MATCH_PARENT, IRenderView.AR_16_9_FIT_PARENT, IRenderView.AR_4_3_FIT_PARENT};
+    private static final int[] s_allAspectRatio         = {IRenderView.AR_ASPECT_FIT_PARENT, IRenderView.AR_ASPECT_FILL_PARENT, IRenderView
+            .AR_ASPECT_WRAP_CONTENT, IRenderView.AR_MATCH_PARENT, IRenderView.AR_16_9_FIT_PARENT, IRenderView.AR_4_3_FIT_PARENT};
     private              int   mCurrentAspectRatioIndex = 3;//默认是不拉伸填充
     private              int   mCurrentAspectRatio      = s_allAspectRatio[mCurrentAspectRatioIndex];
 
@@ -872,7 +873,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     public static final int RENDER_SURFACE_VIEW = 1;
     public static final int RENDER_TEXTURE_VIEW = 2;
 
-    private List<Integer> mAllRenders         = new ArrayList<Integer>();
+    private List<Integer> mAllRenders         = new ArrayList<>();
     private int           mCurrentRenderIndex = 0;
     private int           mCurrentRender      = RENDER_NONE;
 

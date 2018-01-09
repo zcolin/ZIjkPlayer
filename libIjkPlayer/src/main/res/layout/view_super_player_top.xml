@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/app_video_top_box"
-    android:layout_width="match_parent"
-    android:layout_height="45dp"
-    android:background="#88000000"
-    android:orientation="horizontal"
-    android:visibility="gone" >
+                android:id="@+id/app_video_top_box"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="#88000000"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
     <ImageView
         android:id="@+id/app_video_finish"
@@ -13,14 +13,14 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:padding="10dp"
-        android:src="@drawable/superplayer_ic_back" />
+        android:src="@drawable/superplayer_ic_back"/>
 
     <LinearLayout
         android:id="@+id/view_jky_player_top_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/view_jky_play_iv_setting"
@@ -29,7 +29,7 @@
             android:layout_gravity="center"
             android:padding="10dp"
             android:visibility="gone"
-            android:src="@drawable/superplayer_ic_setting" />
+            android:src="@drawable/superplayer_ic_setting"/>
 
         <ImageView
             android:id="@+id/view_jky_player_iv_share"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="10dp"
-            android:src="@drawable/superplayer_ic_share" />
+            android:src="@drawable/superplayer_ic_share"/>
     </LinearLayout>
 
     <TextView
@@ -53,6 +53,6 @@
         android:text=""
         android:textColor="@android:color/white"
         android:textSize="12sp"
-        android:visibility="visible" />
+        android:visibility="visible"/>
 
 </RelativeLayout>

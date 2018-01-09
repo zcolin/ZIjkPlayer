@@ -1,4 +1,13 @@
 /*
+ * *********************************************************
+ *   author   colin
+ *   company  telchina
+ *   email    wanglin2046@126.com
+ *   date     18-1-9 下午2:12
+ * ********************************************************
+ */
+
+/*
  * Copyright (C) 2015 Zhang Rui <bbcallen@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -204,10 +213,10 @@ public class TextureRenderView extends TextureView implements IRenderView {
         private boolean mOwnSurfaceTecture = true;
 
         private WeakReference<TextureRenderView> mWeakRenderView;
-        private Map<IRenderCallback, Object> mRenderCallbackMap = new ConcurrentHashMap<IRenderCallback, Object>();
+        private Map<IRenderCallback, Object> mRenderCallbackMap = new ConcurrentHashMap<>();
 
         public SurfaceCallback(@NonNull TextureRenderView renderView) {
-            mWeakRenderView = new WeakReference<TextureRenderView>(renderView);
+            mWeakRenderView = new WeakReference<>(renderView);
         }
 
         public void setOwnSurfaceTecture(boolean ownSurfaceTecture) {
