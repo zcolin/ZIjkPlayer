@@ -32,7 +32,6 @@ import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -654,17 +653,12 @@ public class ZPlayer extends RelativeLayout {
 
     private ZPlayer setFullScreen(boolean fullScreen) {
         if (activity != null) {
-            WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
             if (fullScreen) {
-                attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
-                attrs.flags |= Window.FEATURE_NO_TITLE;
-                activity.getWindow().setAttributes(attrs);
+                activity.getWindow().addFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 //                activity.getWindow().addFlags(
                 //                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             } else {
-                attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                attrs.flags &= (~Window.FEATURE_NO_TITLE);
-                activity.getWindow().setAttributes(attrs);
+                activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 //                activity.getWindow().clearFlags(
                 //                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             }

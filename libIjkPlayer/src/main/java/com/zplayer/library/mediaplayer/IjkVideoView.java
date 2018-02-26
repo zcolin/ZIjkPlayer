@@ -302,7 +302,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                 if (mUri != null) {
                     ijkMediaPlayer = new IjkMediaPlayer();
                     //TODO 设置是否打印debug （调试的时候使用IjkMediaPlayer.IJK_LOG_DEBUG，上线的时候使用IjkMediaPlayer.IJK_LOG_ERROR）
-                    ijkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_DEBUG);
+                    ijkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_ERROR);
 
                     if (usingMediaCodec) {
                         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec", 1);
