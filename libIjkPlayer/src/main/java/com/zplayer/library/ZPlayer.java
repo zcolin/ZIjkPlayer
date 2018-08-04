@@ -165,7 +165,7 @@ public class ZPlayer extends RelativeLayout {
             if (v.getId() == R.id.view_jky_player_fullscreen) {
                 if (onFullScreenClick == null || !onFullScreenClick.onClick()) {
                     toggleFullScreen();
-                }
+                } 
             } else if (v.getId() == R.id.app_video_play) {
                 doPauseResume();
                 show(defaultTimeout);
