@@ -130,6 +130,7 @@ public class ZPlayer extends RelativeLayout {
     // 网络监听回调
     private NetChangeReceiver    netChangeReceiver;
     private OnNetChangeListener  onNetChangeListener;
+    private OnFullScreenClick    onFullScreenClick;
 
     private OrientationEventListener orientationEventListener;
     private int defaultTimeout = 3000;
@@ -162,7 +163,9 @@ public class ZPlayer extends RelativeLayout {
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.view_jky_player_fullscreen) {
-                toggleFullScreen();
+                if (onFullScreenClick == null || !onFullScreenClick.onClick()) {
+                    toggleFullScreen();
+                }
             } else if (v.getId() == R.id.app_video_play) {
                 doPauseResume();
                 show(defaultTimeout);
@@ -654,7 +657,7 @@ public class ZPlayer extends RelativeLayout {
     private ZPlayer setFullScreen(boolean fullScreen) {
         if (activity != null) {
             if (fullScreen) {
-                activity.getWindow().addFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 //                activity.getWindow().addFlags(
                 //                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             } else {
@@ -1347,6 +1350,15 @@ public class ZPlayer extends RelativeLayout {
     }
 
     /**
+     * 全屏按钮点击
+     * 返回true 拦截 false 不拦截
+     */
+    public ZPlayer setOnFullScreenClickListener(OnFullScreenClick onFullScreenClick) {
+        this.onFullScreenClick = onFullScreenClick;
+        return this;
+    }
+
+    /**
      * set is live (can't seek forward)
      */
     public ZPlayer setLive(boolean isLive) {
@@ -1555,6 +1567,14 @@ public class ZPlayer extends RelativeLayout {
      */
     public View getView(int ViewId) {
         return activity.findViewById(ViewId);
+    }
+
+    /**
+     * 全屏按钮点击
+     * 返回true 拦截 false 不拦截
+     */
+    public interface OnFullScreenClick {
+        boolean onClick();
     }
 
     /**
