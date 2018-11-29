@@ -24,9 +24,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':libIjkPlayer')
-    compile "com.android.support:recyclerview-v7:$supprotVersion"
-    compile "com.android.support:design:$supprotVersion"
-    compile "com.github.zcolin:ZRecyclerView:1.1.8"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':libIjkPlayer')
+    implementation "com.android.support:recyclerview-v7:$supprotVersion"
+    implementation "com.android.support:design:$supprotVersion"
+    implementation "com.github.zcolin:ZRecyclerView:latest.release"
 }

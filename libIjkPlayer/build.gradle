@@ -23,11 +23,11 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:$supprotVersion"
-    compile "com.android.support:recyclerview-v7:$supprotVersion"
-    compile "tv.danmaku.ijk.media:ijkplayer-java:0.8.8"
-    compile "tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8"
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly "com.android.support:appcompat-v7:$supprotVersion"
+    compileOnly "com.android.support:recyclerview-v7:$supprotVersion"
+    api "tv.danmaku.ijk.media:ijkplayer-java:0.8.8"
+    api "tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8"
 
     //Other ABIs: optional
 //    compile 'tv.danmaku.ijk.media:ijkplayer-armv5:0.8.8'

@@ -27,9 +27,9 @@ task clean(type: Delete) {
 
 //project级别的全局统一配置,在module的build.gradle中引用如:compileSdkVersion rootProject.ext.compileSdkVersion
 ext {
-    compileSdkVersion = 26
-    buildToolsVersion = "26.0.2"
-    supprotVersion = "26.0.2"
+    compileSdkVersion = 28
+    buildToolsVersion = "28.0.3"
+    supprotVersion = "28.0.0"
     minSdkVersion = 15
     targetSdkVersion = 24
 

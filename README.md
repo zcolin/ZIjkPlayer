@@ -6,7 +6,9 @@
 app的build.gradle中添加
 ```
 dependencies {
-    compile 'com.github.zcolin:ZIjkPlayer:1.2.6'
+    implementation "com.android.support:appcompat-v7:你的版本号"
+    implementation "com.android.support:recyclerview-v7:你的版本号"
+    implementation 'com.github.zcolin:ZIjkPlayer:latest.release'
 }
 ```
 工程的build.gradle中添加
