@@ -10,8 +10,6 @@ package com.zplayer.library;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +18,9 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.zplayer.library.mediaplayer.IjkVideoView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * 针对列表的Player

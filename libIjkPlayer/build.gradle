@@ -24,8 +24,8 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly "com.android.support:appcompat-v7:$supprotVersion"
-    compileOnly "com.android.support:recyclerview-v7:$supprotVersion"
+    compileOnly 'androidx.appcompat:appcompat:1.0.2'
+    compileOnly 'androidx.recyclerview:recyclerview:1.0.0'
     api "tv.danmaku.ijk.media:ijkplayer-java:0.8.8"
     api "tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8"
 

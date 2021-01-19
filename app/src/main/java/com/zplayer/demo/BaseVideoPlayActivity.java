@@ -10,10 +10,11 @@ package com.zplayer.demo;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import com.zplayer.library.ZPlayer;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * 视频播放页面基类

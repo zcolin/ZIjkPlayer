@@ -11,7 +11,7 @@ package com.zplayer.demo;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 import com.zcolin.gui.zrecyclerview.ZRecyclerView;
 import com.zplayer.demo.adapter.SuperVideoAdapter;
