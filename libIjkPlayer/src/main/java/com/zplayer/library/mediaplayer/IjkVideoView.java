@@ -174,8 +174,9 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 
     public void setRenderView(IRenderView renderView) {
         if (mRenderView != null) {
-            if (mMediaPlayer != null)
+            if (mMediaPlayer != null) {
                 mMediaPlayer.setDisplay(null);
+            }
 
             View renderUIView = mRenderView.getView();
             mRenderView.removeRenderCallback(mSHCallback);
@@ -183,15 +184,18 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
             removeView(renderUIView);
         }
 
-        if (renderView == null)
+        if (renderView == null) {
             return;
+        }
 
         mRenderView = renderView;
         renderView.setAspectRatio(mCurrentAspectRatio);
-        if (mVideoWidth > 0 && mVideoHeight > 0)
+        if (mVideoWidth > 0 && mVideoHeight > 0) {
             renderView.setVideoSize(mVideoWidth, mVideoHeight);
-        if (mVideoSarNum > 0 && mVideoSarDen > 0)
+        }
+        if (mVideoSarNum > 0 && mVideoSarDen > 0) {
             renderView.setVideoSampleAspectRatio(mVideoSarNum, mVideoSarDen);
+        }
 
         View renderUIView = mRenderView.getView();
         LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.CENTER);
@@ -404,6 +408,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     }
 
     IMediaPlayer.OnVideoSizeChangedListener mSizeChangedListener = new IMediaPlayer.OnVideoSizeChangedListener() {
+        @Override
         public void onVideoSizeChanged(IMediaPlayer mp, int width, int height, int sarNum, int sarDen) {
             mVideoWidth = mp.getVideoWidth();
             mVideoHeight = mp.getVideoHeight();
@@ -421,6 +426,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     };
 
     IMediaPlayer.OnPreparedListener mPreparedListener = new IMediaPlayer.OnPreparedListener() {
+        @Override
         public void onPrepared(IMediaPlayer mp) {
             mCurrentState = STATE_PREPARED;
 
@@ -480,6 +486,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     };
 
     private IMediaPlayer.OnCompletionListener mCompletionListener = new IMediaPlayer.OnCompletionListener() {
+        @Override
         public void onCompletion(IMediaPlayer mp) {
             mCurrentState = STATE_PLAYBACK_COMPLETED;
             mTargetState = STATE_PLAYBACK_COMPLETED;
@@ -493,6 +500,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     };
 
     private IMediaPlayer.OnInfoListener mInfoListener = new IMediaPlayer.OnInfoListener() {
+        @Override
         public boolean onInfo(IMediaPlayer mp, int arg1, int arg2) {
             if (mOnInfoListener != null) {
                 mOnInfoListener.onInfo(mp, arg1, arg2);
@@ -501,8 +509,9 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                 case IMediaPlayer.MEDIA_INFO_VIDEO_ROTATION_CHANGED:
                     mVideoRotationDegree = arg2;
                     Log.d(TAG, "MEDIA_INFO_VIDEO_ROTATION_CHANGED: " + arg2);
-                    if (mRenderView != null)
+                    if (mRenderView != null) {
                         mRenderView.setVideoRotation(arg2);
+                    }
                     break;
             }
             return true;
@@ -510,6 +519,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     };
 
     private IMediaPlayer.OnErrorListener mErrorListener = new IMediaPlayer.OnErrorListener() {
+        @Override
         public boolean onError(IMediaPlayer mp, int framework_err, int impl_err) {
             Log.d(TAG, "Error: " + framework_err + "," + impl_err);
             mCurrentState = STATE_ERROR;
@@ -555,6 +565,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     };
 
     private IMediaPlayer.OnBufferingUpdateListener mBufferingUpdateListener = new IMediaPlayer.OnBufferingUpdateListener() {
+        @Override
         public void onBufferingUpdate(IMediaPlayer mp, int percent) {
             mCurrentBufferPercentage = percent;
         }
@@ -603,8 +614,9 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 
     // REMOVED: mSHCallback
     private void bindSurfaceHolder(IMediaPlayer mp, IRenderView.ISurfaceHolder holder) {
-        if (mp == null)
+        if (mp == null) {
             return;
+        }
 
         if (holder == null) {
             mp.setDisplay(null);
@@ -642,10 +654,11 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
             }
 
             mSurfaceHolder = holder;
-            if (mMediaPlayer != null)
+            if (mMediaPlayer != null) {
                 bindSurfaceHolder(mMediaPlayer, holder);
-            else
+            } else {
                 openVideo();
+            }
         }
 
         @Override
@@ -664,8 +677,9 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     };
 
     public void releaseWithoutStop() {
-        if (mMediaPlayer != null)
+        if (mMediaPlayer != null) {
             mMediaPlayer.setDisplay(null);
+        }
     }
 
     /*
@@ -861,8 +875,9 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
             mCurrentAspectRatioIndex = 0;
         }
         mCurrentAspectRatio = s_allAspectRatio[mCurrentAspectRatioIndex];
-        if (mRenderView != null)
+        if (mRenderView != null) {
             mRenderView.setAspectRatio(mCurrentAspectRatio);
+        }
         return mCurrentAspectRatio;
     }
 
@@ -880,15 +895,18 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     private void initRenders() {
         mAllRenders.clear();
 
-        if (enableSurfaceView)
+        if (enableSurfaceView) {
             mAllRenders.add(RENDER_SURFACE_VIEW);
-        if (enableTextureView && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+        }
+        if (enableTextureView && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             mAllRenders.add(RENDER_TEXTURE_VIEW);
-        if (enableNoView)
+        }
+        if (enableNoView) {
             mAllRenders.add(RENDER_NONE);
-
-        if (mAllRenders.isEmpty())
+        }
+        if (mAllRenders.isEmpty()) {
             mAllRenders.add(RENDER_SURFACE_VIEW);
+        }
         mCurrentRender = mAllRenders.get(mCurrentRenderIndex);
         setRender(mCurrentRender);
     }

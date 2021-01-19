@@ -134,6 +134,7 @@ public class ZListPlayer extends RelativeLayout {
      * 监听屏幕状态屏蔽系统操作栏，如华为系的操作条
      * 在Activity的onConfigurationChanged中调用
      */
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         if (player != null) {
             player.onConfigurationChanged(newConfig);
@@ -154,8 +155,9 @@ public class ZListPlayer extends RelativeLayout {
                 //                rlFullScreenLay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
             } else {
                 ViewGroup viewGroup = (ViewGroup) player.getParent();
-                if (viewGroup == null)
+                if (viewGroup == null) {
                     return;
+                }
                 viewGroup.removeAllViews();
                 rlFullScreenLay.addView(player);
                 rlFullScreenLay.setVisibility(View.VISIBLE);
@@ -244,8 +246,9 @@ public class ZListPlayer extends RelativeLayout {
             View itemView = (View) last.getParent();
             if (itemView != null) {
                 View viewById = itemView.findViewById(viewId);
-                if (viewById != null)
+                if (viewById != null) {
                     viewById.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -267,8 +270,9 @@ public class ZListPlayer extends RelativeLayout {
                     controlview.setVisibility(View.GONE);
                 }
                 if (player.isPlaying() || player.getVideoStatus() == IjkVideoView.STATE_PAUSED) {
-                    if (player.getParent() != null)
+                    if (player.getParent() != null) {
                         ((ViewGroup) player.getParent()).removeAllViews();
+                    }
                     frameLayout.addView(player);
                 }
             }

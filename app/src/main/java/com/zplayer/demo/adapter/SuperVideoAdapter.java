@@ -57,8 +57,9 @@ public class SuperVideoAdapter extends BaseRecyclerAdapter<VideoListBean> {
 
         //点击回调 播放视频
         ivPlay.setOnClickListener(v -> {
-            if (playClick != null)
+            if (playClick != null) {
                 playClick.onPlayClick(position, data, rlayPlayerControl);
+            }
         });
     }
 

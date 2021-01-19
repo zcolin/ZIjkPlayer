@@ -49,8 +49,9 @@ public final class MeasureHelper {
     }
 
     public View getView() {
-        if (mWeakView == null)
+        if (mWeakView == null) {
             return null;
+        }
         return mWeakView.get();
     }
 
@@ -98,21 +99,24 @@ public final class MeasureHelper {
                 switch (mCurrentAspectRatio) {
                     case IRenderView.AR_16_9_FIT_PARENT:
                         displayAspectRatio = 16.0f / 9.0f;
-                        if (mVideoRotationDegree == 90 || mVideoRotationDegree == 270)
+                        if (mVideoRotationDegree == 90 || mVideoRotationDegree == 270) {
                             displayAspectRatio = 1.0f / displayAspectRatio;
+                        }
                         break;
                     case IRenderView.AR_4_3_FIT_PARENT:
                         displayAspectRatio = 4.0f / 3.0f;
-                        if (mVideoRotationDegree == 90 || mVideoRotationDegree == 270)
+                        if (mVideoRotationDegree == 90 || mVideoRotationDegree == 270) {
                             displayAspectRatio = 1.0f / displayAspectRatio;
+                        }
                         break;
                     case IRenderView.AR_ASPECT_FIT_PARENT:
                     case IRenderView.AR_ASPECT_FILL_PARENT:
                     case IRenderView.AR_ASPECT_WRAP_CONTENT:
                     default:
                         displayAspectRatio = (float) mVideoWidth / (float) mVideoHeight;
-                        if (mVideoSarNum > 0 && mVideoSarDen > 0)
+                        if (mVideoSarNum > 0 && mVideoSarDen > 0) {
                             displayAspectRatio = displayAspectRatio * mVideoSarNum / mVideoSarDen;
+                        }
                         break;
                 }
                 boolean shouldBeWider = displayAspectRatio > specAspectRatio;

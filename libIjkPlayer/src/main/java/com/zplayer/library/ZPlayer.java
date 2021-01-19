@@ -331,8 +331,9 @@ public class ZPlayer extends RelativeLayout {
     private final SeekBar.OnSeekBarChangeListener mSeekListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if (!fromUser)
+            if (!fromUser) {
                 return;
+            }
             $.id(R.id.view_jky_player_tip_control).gone();// 移动时隐藏掉状态image
             int newPosition = (int) ((duration * progress * 1.0) / 1000);
             String time = generateTime(newPosition);
@@ -481,8 +482,9 @@ public class ZPlayer extends RelativeLayout {
         View liveBox = contentView.findViewById(R.id.app_video_box);
         liveBox.setClickable(true);
         liveBox.setOnTouchListener((view, motionEvent) -> {
-            if (gestureDetector.onTouchEvent(motionEvent))
+            if (gestureDetector.onTouchEvent(motionEvent)) {
                 return true;
+            }
 
             // 处理手势结束
             switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
@@ -705,6 +707,7 @@ public class ZPlayer extends RelativeLayout {
      * 监听全屏跟非全屏
      * 在activity中的onConfigurationChanged中需要回调
      */
+    @Override
     public void onConfigurationChanged(final Configuration newConfig) {
         portrait = newConfig.orientation == Configuration.ORIENTATION_PORTRAIT;
         doOnConfigurationChanged(portrait);
@@ -863,16 +866,18 @@ public class ZPlayer extends RelativeLayout {
     private void onVolumeSlide(float percent) {
         if (volume == -1) {
             volume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-            if (volume < 0)
+            if (volume < 0) {
                 volume = 0;
+            }
         }
         hide(true);
 
         int index = (int) (percent * mMaxVolume) + volume;
-        if (index > mMaxVolume)
+        if (index > mMaxVolume) {
             index = mMaxVolume;
-        else if (index < 0)
+        } else if (index < 0) {
             index = 0;
+        }
 
         // 变更声音
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, index, 0);

@@ -28,5 +28,5 @@ dependencies {
     implementation project(':libIjkPlayer')
     implementation "com.android.support:recyclerview-v7:$supprotVersion"
     implementation "com.android.support:design:$supprotVersion"
-    implementation "com.github.zcolin:ZRecyclerView:latest.release"
+    implementation "com.github.zcolin:ZRecyclerView:2.1.6"
 }
