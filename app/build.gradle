@@ -4,29 +4,114 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
+    // lint配置
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
     defaultConfig {
-        applicationId "com.zplayer.demo"
+        applicationId rootProject.ext.applicationId
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
+        versionCode getGitVersion()
+        versionName rootProject.ext.rootVersionName + '.' + versionCode
+
+        // multiDexEnabled true
+
+        ndk {
+            abiFilters "armeabi-v7a"// 指定要ndk需要兼容的架构(这样其他依赖包里mips,x86,armeabi之类的so会被过滤掉)
+        }
     }
+
     buildTypes {
+        debug {
+            buildConfigField "boolean", "PRO_CONDITION", "false" // 直接运行是否是生产环境
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+        }
+
         release {
             minifyEnabled false
+            shrinkResources false // 移除无用的resource文件（如果使用getIdentifier函数的需要关闭）
+            zipAlignEnabled true // ZipAlign优化
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    // 修改输出文件的文件名
+    def fileMap = [:]
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            def apkName = getApkName("${defaultConfig.versionCode}")
+            if (outputFile != null && variant.buildType.name == "release") {
+                variant.productFlavors.each { flavor ->  // 多渠道包名前缀
+                    def fileName = flavor.name + "_" + rootProject.ext.apkName + "_" + apkName + ".apk"
+                    outputFileName = fileName
+                    // 往数组添加输出的文件路径
+                    fileMap.put(new File(outputFile.parentFile.absolutePath, fileName), flavor.name)
+                }
+            }
+        }
+    }
+
+    tasks.whenTaskAdded { task ->
+        productFlavors.find { flavor ->
+            if (task.name.equals('assemble' + flavor.name) || task.name.equals('assembleRelease')) {
+                task.doLast {
+                    // 遍历文件数组并进行操作
+                    forEachFile(fileMap)
+                }
+                return true
+            }
+        }
+    }
+
+    // java代码使用jdk1.8编译
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
+// 遍历打包文件
+def forEachFile(fileMap) {
+    fileMap.each { file, flavor ->
+        //遍历进行文件操作
+        moveout_apk(file, flavor)
+    }
+}
+
+// copy安装包到目标文件夹
+def moveout_apk(orignalFile, flavor) {
+    def intoFile = getRootDir().absolutePath + rootProject.ext.release_path + File.separator + flavor
+    copy {
+        from orignalFile.absolutePath
+        into intoFile
+    }
+}
+
+// 获取Git版本号
+def getApkName(versionCode) {
+    return rootProject.ext.rootVersionName + "_build_" + versionCode
+}
+
+// 获取Git版本号
+def getGitVersion() {
+    def cmd = 'git rev-list HEAD --count'
+    def gitVersion = cmd.execute().text.trim().toInteger()
+    return gitVersion
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':libIjkPlayer')
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.google.android.material:material:1.2.1'
     implementation "com.github.zcolin:ZRecyclerView:3.0.0"
 }
+
+
+

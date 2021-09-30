@@ -1,0 +1,16 @@
+// 自定义的配置项gradle文件，需要在【根gradle】中的buildscript中使用apply from 引入。
+ext {
+    compileSdkVersion = 30
+    buildToolsVersion = "28.0.3"
+    supprotVersion = "28.0.0"
+    minSdkVersion = 19
+    targetSdkVersion = 28
+
+    gradle_plugin = "4.0.0"
+    maven_plugin = "2.0"
+
+    rootVersionName = "v1.0"
+    apkName = "ZIjkPlayer"
+    applicationId = "com.zplayer.demo"
+}
+
